@@ -1,0 +1,72 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>Anchor Prototype</title>
+  <meta name="author" content="Divyansh Sharma">
+  <meta name="description" content="Anchor — clickable prototype of PRD 1–5 (Agency Statement, Decision Guard, Trust Check, Me-First Mode, Family Circle) in Flipkart's design language.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Noto+Sans+Devanagari:wght@400;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/tokens.css">
+  <link rel="stylesheet" href="css/shell.css">
+  <link rel="stylesheet" href="css/components.css">
+  <link rel="stylesheet" href="css/screens.css">
+</head>
+<body>
+  <div class="app-shell" id="shell">
+    <aside class="sidebar" id="sidebar" aria-label="Switch persona"></aside>
+
+    <main class="stage" id="stage">
+      <div class="stage-bar">
+        <button class="icon-btn stage-menu" data-action="shell.openSidebar" aria-label="Open persona list"></button>
+        <span class="stage-title" id="stageTitle"></span>
+        <button class="stage-demo-btn" data-action="shell.openPanel" aria-label="Open demo control panel"></button>
+      </div>
+
+      <div class="phone" id="phone" aria-label="Phone preview">
+        <div class="phone-status" id="phoneStatus"></div>
+        <div class="phone-app" id="phoneApp"></div>
+        <div class="phone-layer" id="phoneLayer" aria-live="polite"></div>
+      </div>
+
+      <section class="console" id="console" hidden></section>
+    </main>
+
+    <aside class="panel" id="panel" aria-label="Demo control panel"></aside>
+  </div>
+  <div class="shell-scrim" id="shellScrim" data-action="shell.closeOverlays"></div>
+  <div class="shell-toast" id="shellToast" role="status" aria-live="polite"></div>
+
+  <script src="js/config.local.js"></script>
+  <script src="js/core.js"></script>
+  <script src="js/ai.js"></script>
+  <script src="js/data/i18n.js"></script>
+  <script src="js/data/catalogue.js"></script>
+  <script src="js/data/registry.js"></script>
+  <script src="js/data/seed.js"></script>
+  <script src="js/engine/ledger.js"></script>
+  <script src="js/engine/policy.js"></script>
+  <script src="js/engine/trust.js"></script>
+  <script src="js/engine/statement.js"></script>
+  <script src="js/engine/mefirst.js"></script>
+  <script src="js/engine/family.js"></script>
+  <script src="js/engine/anchor.js"></script>
+  <script src="js/sim/agent.js"></script>
+  <script src="js/sim/scenarios.js"></script>
+  <script src="js/ui/icons.js"></script>
+  <script src="js/ui/voice.js"></script>
+  <script src="js/ui/components.js"></script>
+  <script src="js/ui/phone.js"></script>
+  <script src="js/ui/agent-tab.js"></script>
+  <script src="js/ui/mirror-tab.js"></script>
+  <script src="js/ui/guard-tab.js"></script>
+  <script src="js/ui/grow-tab.js"></script>
+  <script src="js/ui/family-tab.js"></script>
+  <script src="js/ui/settings-tab.js"></script>
+  <script src="js/ui/console.js"></script>
+  <script src="js/tests.js"></script>
+  <script src="js/app.js"></script>
+</body>
+</html>

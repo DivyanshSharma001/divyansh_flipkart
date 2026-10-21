@@ -1,0 +1,470 @@
+<title>Anchor Design Choices</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+/* Layout: Flipkart-light board — sticky app bar, one section per pending element, option tiles in a wrapping grid, sticky picks bar.
+   Single deliberate light look (Flipkart's own theme), every colour set explicitly. */
+:root {
+  color-scheme: light;
+  --fk-blue: #2874F0; --fk-blue-2: #1162F2; --fk-blue-tint: #E8F0FE;
+  --fk-yellow: #FFE11B; --fk-yellow-2: #FFC200; --fk-orange: #FB641B;
+  --fk-green: #388E3C; --fk-green-2: #26A541; --fk-green-tint: #E7F8EC; --fk-green-text: #008042;
+  --fk-purple: #5209DB; --fk-purple-tint: #F4F2FF;
+  --fk-red: #E8273A; --fk-red-tint: #FDE8EA;
+  --fk-amber: #B88600; --fk-amber-tint: #FFF6D6;
+  --fk-navy: #0E1A3A; --fk-navy-2: #05070F;
+  --ink: #212121; --ink-2: #333333; --muted: #878787; --line: #DBDBDB; --line-2: #F0F0F0;
+  --page: #F1F3F6; --surface: #FFFFFF; --chip: #F5F5F5; --disabled: #C2C2C2;
+  --font: "Inter", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+}
+* { box-sizing: border-box; }
+body { margin: 0; background: var(--page); color: var(--ink); font: 14px/1.45 var(--font); -webkit-font-smoothing: antialiased; }
+body::before { content: ""; position: fixed; inset: 0 0 auto; height: env(safe-area-inset-top, 0px); z-index: 10; background: var(--surface); }
+button { font: inherit; color: inherit; cursor: pointer; }
+:focus-visible { outline: 2px solid var(--fk-blue); outline-offset: 2px; }
+
+.bar { position: sticky; top: env(safe-area-inset-top, 0px); z-index: 9; background: var(--surface); border-bottom: 1px solid var(--line-2); }
+.bar-in, .wrap, .picks-in { max-width: 1240px; margin: 0 auto; padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px)); }
+.bar-in { display: flex; align-items: center; gap: 12px; padding-block: 10px; flex-wrap: wrap; }
+.tile-brand { display: inline-flex; align-items: center; gap: 6px; background: var(--fk-yellow); border-radius: 10px; padding: 8px 14px; font-weight: 800; font-style: italic; color: var(--fk-blue); font-size: 15px; }
+.bar h1 { margin: 0; font-size: 18px; font-weight: 600; flex: 1; min-width: 200px; text-wrap: balance; }
+.legend { display: flex; gap: 8px; flex-wrap: wrap; font-size: 12px; color: var(--muted); }
+.src { display: inline-flex; align-items: center; gap: 4px; padding: 2px 8px; border-radius: 2px; font-size: 11px; font-weight: 700; letter-spacing: .2px; }
+.src.fk { background: var(--fk-blue-tint); color: var(--fk-blue); }
+.src.cl { background: var(--fk-purple-tint); color: var(--fk-purple); }
+.src.mix { background: var(--fk-green-tint); color: var(--fk-green-2); }
+.src.new { background: var(--fk-red-tint); color: var(--fk-red); }
+
+.wrap { padding-block: 18px 110px; display: grid; gap: 14px; }
+.intro { background: var(--surface); border-radius: 8px; padding: 16px 18px; display: grid; gap: 6px; }
+.intro p { margin: 0; max-width: 74ch; color: var(--ink-2); }
+.intro b { color: var(--ink); }
+
+.el { background: var(--surface); border-radius: 8px; padding: 16px 18px 18px; display: grid; gap: 12px; }
+.el-head { display: flex; align-items: baseline; gap: 10px; flex-wrap: wrap; }
+.el-num { font-size: 12px; font-weight: 700; color: var(--muted); font-variant-numeric: tabular-nums; }
+.el-head h2 { margin: 0; font-size: 16px; font-weight: 600; text-wrap: balance; }
+.el-where { font-size: 12px; color: var(--muted); }
+.opts { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 12px; }
+.opt { position: relative; display: grid; grid-template-rows: auto 1fr auto; border: 1px solid var(--line); border-radius: 8px; overflow: hidden; background: var(--surface); min-width: 0; }
+.opt input { position: absolute; opacity: 0; pointer-events: none; }
+.opt-top { display: flex; align-items: center; gap: 8px; padding: 10px 12px; border-bottom: 1px solid var(--line-2); }
+.opt-letter { width: 22px; height: 22px; border-radius: 4px; display: grid; place-items: center; background: var(--chip); color: var(--muted); font-weight: 700; font-size: 12px; flex-shrink: 0; }
+.opt-name { font-weight: 600; font-size: 13px; flex: 1; min-width: 0; }
+.stage { background: var(--page); padding: 16px 14px; display: grid; align-content: center; gap: 10px; min-height: 150px; min-width: 0; }
+.opt-note { padding: 10px 12px; font-size: 12px; color: var(--muted); border-top: 1px solid var(--line-2); }
+.opt label.pick { display: flex; align-items: center; justify-content: center; gap: 6px; margin: 0 12px 12px; min-height: 36px; border-radius: 2px; border: 1px solid var(--line); font-weight: 500; font-size: 13px; color: var(--fk-blue); cursor: pointer; background: var(--surface); }
+.opt input:checked ~ label.pick { background: var(--fk-blue); color: #fff; border-color: var(--fk-blue); }
+.opt:has(input:checked) { border-color: var(--fk-blue); box-shadow: 0 0 0 1px var(--fk-blue); }
+.opt:has(input:checked) .opt-letter { background: var(--fk-blue); color: #fff; }
+.opt input:focus-visible ~ label.pick { outline: 2px solid var(--fk-blue); outline-offset: 2px; }
+
+.picks { position: fixed; left: 0; right: 0; bottom: 0; z-index: 9; background: var(--surface); border-top: 1px solid var(--line); padding-bottom: env(safe-area-inset-bottom, 0px); }
+.picks-in { display: flex; align-items: center; gap: 12px; padding-block: 10px; flex-wrap: wrap; }
+.picks-count { font-weight: 600; }
+.picks-code { flex: 1; min-width: 160px; font-size: 12px; color: var(--muted); font-family: ui-monospace, Consolas, monospace; overflow-wrap: anywhere; }
+.btn-copy { min-height: 40px; padding: 0 18px; border: 0; border-radius: 8px; font-weight: 600; background: linear-gradient(180deg, var(--fk-yellow), var(--fk-yellow-2)); color: var(--ink); }
+.copy-msg { font-size: 12px; color: var(--fk-green-2); font-weight: 600; }
+
+/* ============ Preview primitives (all traced to Flipkart pages or BTP's Claude-style chat) ============ */
+.pv-card { background: var(--surface); border-radius: 8px; padding: 12px; display: grid; gap: 8px; min-width: 0; }
+.pv-title { font-size: 14px; font-weight: 600; color: var(--ink); }
+.pv-sub { font-size: 12px; color: var(--muted); }
+.pv-row { display: flex; gap: 8px; align-items: center; flex-wrap: wrap; }
+.pv-row > * { min-width: 0; }
+.mut { color: var(--muted); }
+
+/* Buttons */
+.b-cart { flex: 1; min-height: 44px; border-radius: 8px; border: 1px solid var(--line); background: var(--surface); font-weight: 600; font-size: 14px; color: var(--ink); }
+.b-buy { flex: 1; min-height: 44px; border-radius: 8px; border: 0; background: linear-gradient(180deg, var(--fk-yellow), var(--fk-yellow-2)); color: var(--ink); font-weight: 600; font-size: 14px; line-height: 1.1; display: grid; place-items: center; padding: 4px 8px; }
+.b-buy small { display: block; font-weight: 500; font-size: 12px; }
+.b-link { border: 0; background: none; color: var(--fk-blue-2); font-weight: 600; font-size: 14px; padding: 6px 2px; }
+.b-classic { flex: 1; min-height: 44px; border-radius: 2px; border: 0; color: #fff; font-weight: 500; font-size: 13px; letter-spacing: .3px; text-transform: uppercase; }
+.b-classic.or { background: var(--fk-orange); }
+.b-classic.wh { background: var(--surface); color: var(--fk-blue); border: 1px solid var(--line); }
+.b-classic.dis { background: var(--disabled); }
+.b-pri { flex: 1; min-height: 40px; border-radius: 10px; border: 0; background: var(--fk-blue); color: #fff; font-weight: 500; font-size: 14px; }
+.b-ghost { flex: 1; min-height: 40px; border-radius: 10px; border: 1px solid var(--line); background: var(--surface); color: var(--ink); font-size: 14px; }
+
+/* Trust tags */
+.t-pill { display: inline-flex; align-items: center; gap: 4px; padding: 2px 6px 2px 6px; border-radius: 3px; color: #fff; font-size: 12px; font-weight: 500; }
+.t-pill.g { background: var(--fk-green); } .t-pill.y { background: #C58A00; } .t-pill.r { background: var(--fk-red); } .t-pill.k { background: #6B6F76; }
+.t-tag { display: inline-flex; align-items: center; gap: 6px; padding: 4px 6px; border-radius: 2px; font-size: 12px; font-weight: 700; }
+.t-tag.g { background: var(--fk-green-tint); color: var(--fk-green-2); }
+.t-tag.y { background: var(--fk-amber-tint); color: var(--fk-amber); }
+.t-tag.r { background: var(--fk-red-tint); color: var(--fk-red); }
+.t-tag.k { background: var(--chip); color: #5D6168; }
+.t-chip { display: inline-flex; align-items: center; gap: 6px; padding: 7px 8px; border-radius: 8px; background: var(--chip); color: var(--ink-2); font-size: 12px; }
+.t-chip .sep { width: 1px; height: 12px; background: var(--line); }
+.dot { width: 9px; height: 9px; border-radius: 50%; flex-shrink: 0; display: inline-block; }
+.dot.g { background: var(--fk-green-2); } .dot.y { background: #F5B700; } .dot.r { background: var(--fk-red); } .dot.k { background: #8A8F96; }
+.vegbox { width: 14px; height: 14px; border: 1.5px solid currentColor; border-radius: 2px; display: inline-grid; place-items: center; flex-shrink: 0; }
+.vegbox i { width: 6px; height: 6px; border-radius: 50%; background: currentColor; }
+.deal { display: inline-block; background: var(--fk-purple); color: #fff; font-weight: 700; font-size: 12px; padding: 2px 6px; border-radius: 2px; }
+.bigp { font-size: 24px; font-weight: 700; display: flex; align-items: baseline; gap: 8px; flex-wrap: wrap; }
+.bigp .off { color: var(--fk-green-text); }
+.bigp s { color: var(--muted); font-weight: 400; font-size: 18px; }
+
+/* Chat */
+.c-row { display: flex; gap: 8px; align-items: flex-start; }
+.c-row.me { justify-content: flex-end; }
+.c-av { width: 24px; height: 24px; border-radius: 6px; background: var(--fk-blue); color: #fff; display: grid; place-items: center; font-size: 11px; font-weight: 700; flex-shrink: 0; }
+.c-text { font-size: 13px; color: var(--ink); min-width: 0; }
+.c-me-tint { background: var(--fk-blue-tint); border-radius: 18px 18px 4px 18px; padding: 8px 12px; font-size: 13px; max-width: 80%; }
+.c-me-blue { background: var(--fk-blue); color: #fff; border-radius: 16px 16px 4px 16px; padding: 8px 12px; font-size: 13px; max-width: 80%; }
+.c-bot-card { background: var(--surface); border-radius: 4px 16px 16px 16px; padding: 8px 12px; font-size: 13px; max-width: 82%; }
+.c-time { display: block; font-size: 11px; color: var(--muted); margin-top: 2px; }
+.dots3 { display: inline-flex; gap: 4px; } .dots3 i { width: 6px; height: 6px; border-radius: 50%; background: var(--muted); opacity: .6; }
+
+/* Decision card variants */
+.k-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 6px; }
+.k-stat { background: var(--page); border-radius: 8px; padding: 7px 9px; min-width: 0; }
+.k-stat .k { font-size: 11px; color: var(--muted); }
+.k-stat .v { font-size: 13px; font-weight: 600; overflow-wrap: anywhere; }
+.k-head { display: flex; align-items: center; gap: 6px; font-size: 13px; font-weight: 600; }
+.k-head::before { content: ""; width: 8px; height: 8px; border-radius: 50%; background: var(--fk-blue); }
+.offers { border-radius: 16px; overflow: hidden; background: #DCEBFF; }
+.offers-h { background: linear-gradient(90deg, #1E55E8, #2874F0); color: #fff; padding: 10px 12px; font-size: 13px; font-weight: 500; display: flex; align-items: center; gap: 6px; }
+.offers-b { padding: 10px; display: grid; gap: 8px; }
+.offers-in { background: var(--surface); border-radius: 12px; padding: 10px; display: grid; gap: 4px; }
+.best { display: inline-block; background: linear-gradient(#F7D98B, #FFF0BA, #F7D98B); font-size: 11px; padding: 0 6px; }
+
+/* Inputs */
+.composer { background: var(--surface); border: 1.5px solid var(--line); border-radius: 24px; padding: 6px; display: grid; gap: 4px; }
+.composer .ph { padding: 6px 8px 2px; color: var(--muted); font-size: 13px; }
+.composer .ctl { display: flex; align-items: center; gap: 4px; }
+.composer .sp { flex: 1; }
+.ico { width: 30px; height: 30px; border-radius: 8px; display: grid; place-items: center; color: var(--muted); }
+.ico svg, .sq svg { width: 18px; height: 18px; }
+.sq { width: 30px; height: 30px; border-radius: 8px; background: var(--fk-blue); color: #fff; display: grid; place-items: center; }
+.fk-search { display: flex; align-items: center; gap: 8px; background: var(--surface); border: 1.5px solid #8DB3F7; border-radius: 8px; padding: 0 10px; min-height: 42px; color: var(--muted); font-size: 13px; }
+.fk-search .grow { flex: 1; }
+.float { position: relative; border: 1.5px solid var(--fk-blue); border-radius: 2px; padding: 12px 10px 8px; font-size: 14px; color: var(--ink); background: var(--surface); }
+.float label { position: absolute; top: -8px; left: 10px; background: var(--surface); padding: 0 4px; font-size: 10px; color: var(--fk-blue); }
+
+/* Inline notice / snackbar */
+.inline-status { display: flex; align-items: center; gap: 8px; font-size: 12px; color: var(--ink-2); border-top: 1px solid var(--line-2); padding-top: 8px; }
+.inline-status .ok { color: var(--fk-green-2); font-weight: 700; }
+.snack { display: flex; align-items: center; gap: 12px; background: var(--ink); color: #fff; border-radius: 4px; padding: 10px 12px; font-size: 13px; }
+.snack b { color: var(--fk-yellow); margin-left: auto; font-weight: 700; }
+.notice-tint { background: var(--fk-blue-tint); border-radius: 10px; padding: 9px 11px; font-size: 12px; }
+
+/* Night surface (Flipkart Play) */
+.night { background: linear-gradient(180deg, #13214A, var(--fk-navy-2)); color: #fff; border-radius: 8px; padding: 14px; display: grid; gap: 10px; justify-items: center; text-align: center; }
+.live { background: var(--fk-red); color: #fff; font-weight: 800; font-size: 11px; padding: 2px 8px; border-radius: 999px; letter-spacing: .3px; }
+.finger { width: 58px; height: 58px; border-radius: 50%; display: grid; place-items: center; background: rgba(255,255,255,.12); }
+.finger svg { width: 30px; height: 30px; }
+.finger.lt { background: var(--fk-blue-tint); color: var(--fk-blue); }
+
+/* Bars + progress */
+.bars { display: grid; gap: 6px; }
+.bar-row { display: grid; grid-template-columns: 92px 1fr 22px; gap: 8px; align-items: center; font-size: 12px; }
+.bar-track { height: 6px; border-radius: 3px; background: var(--line-2); overflow: hidden; display: flex; }
+.bar-track i { display: block; height: 100%; }
+.seg-pills { display: flex; gap: 4px; }
+.seg-pills i { height: 6px; border-radius: 3px; background: #D6D6D6; width: 12px; display: block; }
+.seg-pills i.on { background: var(--ink); width: 32px; }
+.qdots { display: flex; gap: 6px; } .qdots i { width: 8px; height: 8px; border-radius: 50%; background: var(--line); display: block; }
+.qdots i.done { background: var(--fk-blue); } .qdots i.on { background: var(--fk-blue); box-shadow: 0 0 0 3px var(--fk-blue-tint); }
+.ring { width: 64px; height: 64px; border-radius: 50%; display: grid; place-items: center; background: conic-gradient(var(--fk-green-2) calc(var(--v) * 1%), var(--line-2) 0); flex-shrink: 0; }
+.ring b { width: 48px; height: 48px; border-radius: 50%; background: var(--surface); display: grid; place-items: center; font-size: 14px; }
+.histo { display: grid; gap: 4px; font-size: 11px; }
+.histo div { display: grid; grid-template-columns: 26px 1fr 26px; align-items: center; gap: 6px; }
+.histo span.trk { height: 5px; border-radius: 3px; background: var(--line-2); overflow: hidden; display: block; }
+.histo span.trk i { display: block; height: 100%; }
+
+/* Checkbox / seg / stepper */
+.cbx { display: flex; align-items: center; gap: 10px; font-size: 13px; }
+.cbx i { width: 15px; height: 15px; border: 1px solid var(--disabled); border-radius: 2px; display: grid; place-items: center; background: var(--surface); flex-shrink: 0; }
+.cbx i.on { background: var(--fk-blue); border-color: var(--fk-blue); }
+.cbx i.on::after { content: ""; width: 7px; height: 4px; border-left: 2px solid #fff; border-bottom: 2px solid #fff; transform: rotate(-45deg) translate(1px, -1px); }
+.seg { display: inline-flex; gap: 6px; flex-wrap: wrap; }
+.seg span { border: 1px solid var(--line); border-radius: 999px; padding: 6px 12px; font-size: 12px; background: var(--surface); }
+.seg span.on { background: var(--fk-blue-tint); border-color: var(--fk-blue); color: var(--fk-blue); font-weight: 600; box-shadow: inset 0 0 0 1px var(--fk-blue); }
+.stepper { display: inline-flex; align-items: center; border: 1px solid var(--line); border-radius: 4px; overflow: hidden; }
+.stepper span { width: 34px; height: 32px; display: grid; place-items: center; font-size: 16px; color: var(--ink-2); }
+.stepper b { min-width: 44px; height: 32px; display: grid; place-items: center; border-inline: 1px solid var(--line); font-size: 13px; }
+
+/* Me-First question picker (Claude ask_user) */
+.q-card { background: var(--surface); border: 1px solid var(--line); border-radius: 14px; padding: 10px; display: grid; gap: 6px; }
+.q-q { font-size: 14px; font-weight: 600; }
+.q-opt { display: flex; align-items: center; gap: 8px; border: 1px solid var(--line); border-radius: 10px; padding: 8px 10px; font-size: 13px; background: var(--surface); }
+.q-opt.hi { border-color: var(--fk-blue); background: var(--fk-blue-tint); }
+.q-num { width: 20px; height: 20px; border-radius: 5px; background: var(--line-2); color: var(--muted); display: grid; place-items: center; font-size: 11px; font-weight: 700; flex-shrink: 0; }
+.q-opt.hi .q-num { background: var(--fk-blue); color: #fff; }
+.q-else { border-style: dashed; color: var(--muted); justify-content: space-between; }
+.chips { display: flex; gap: 6px; flex-wrap: wrap; }
+.chips span { border: 1px solid var(--line); border-radius: 999px; padding: 6px 12px; font-size: 12px; background: var(--surface); }
+
+/* Tool step line (Claude) */
+.step { display: flex; align-items: center; gap: 6px; font-size: 12px; color: var(--muted); }
+.step .ck { color: var(--fk-green-2); font-weight: 700; }
+.step-list { border-left: 2px solid var(--line); margin-left: 6px; padding-left: 10px; display: grid; gap: 4px; font-size: 12px; color: var(--ink-2); }
+
+/* Tables */
+.spec { width: 100%; border-collapse: collapse; font-size: 12px; }
+.spec td { padding: 6px 4px; vertical-align: top; }
+.spec td:first-child { color: var(--muted); width: 42%; }
+.spec tr + tr td { border-top: 1px solid var(--line-2); }
+
+/* Thumbs */
+.thumbs { display: flex; gap: 8px; }
+.th { width: 56px; height: 56px; border-radius: 8px; display: grid; place-items: center; color: #fff; flex-shrink: 0; }
+.th svg { width: 24px; height: 24px; }
+.th.a { background: linear-gradient(135deg, #4F8DF7, #1A5DC8); } .th.b { background: linear-gradient(135deg, #F27A9B, #E2264D); } .th.c { background: linear-gradient(135deg, #43B26A, #108934); }
+.th.sk { background: #E8E8E8; }
+.th.photo { background: var(--surface); border: 1px dashed var(--line); color: var(--muted); font-size: 10px; text-align: center; padding: 4px; line-height: 1.2; }
+
+/* Sidebar / hub vocabulary */
+.sb { background: var(--surface); border-radius: 8px; padding: 8px; display: grid; gap: 2px; font-size: 12px; }
+.sb .lbl { font-size: 10px; font-weight: 600; letter-spacing: .4px; text-transform: uppercase; color: #6B6B6B; padding: 6px 6px 2px; }
+.sb .it { display: flex; align-items: center; gap: 8px; padding: 6px; border-radius: 8px; }
+.sb .it.on { background: var(--fk-blue); color: #fff; }
+.sb .ci { width: 22px; height: 22px; border-radius: 50%; background: var(--page); display: grid; place-items: center; font-size: 10px; font-weight: 700; color: var(--fk-blue); }
+.sb .it.on .ci { background: rgba(255,255,255,.2); color: #fff; }
+.hub-tabs { display: flex; gap: 14px; font-size: 12px; border-bottom: 1px solid var(--line); }
+.hub-tabs span { padding: 6px 0; color: #6B6B6B; }
+.hub-tabs span.on { color: var(--ink); font-weight: 600; box-shadow: inset 0 -2px 0 var(--ink); }
+.count { display: inline-grid; place-items: center; min-width: 16px; height: 16px; border-radius: 50%; background: var(--fk-red-tint); color: var(--fk-red); font-size: 10px; font-weight: 700; margin-left: 4px; }
+
+/* Modal / panel */
+.formpad { background: var(--surface); border: 1px solid var(--line); border-radius: 16px; padding: 12px; display: grid; gap: 8px; }
+.formpad-h { display: flex; align-items: center; justify-content: space-between; font-weight: 600; font-size: 13px; }
+.split { display: grid; grid-template-columns: 38% 1fr; border-radius: 2px; overflow: hidden; background: var(--surface); position: relative; }
+.split .l { background: var(--fk-blue); color: #fff; padding: 12px 10px; display: grid; gap: 4px; align-content: start; }
+.split .l b { font-size: 16px; font-weight: 500; }
+.split .l span { font-size: 11px; opacity: .9; }
+.split .r { padding: 12px 10px; display: grid; gap: 6px; font-size: 12px; min-width: 0; }
+.scrim { background: rgba(0,0,0,.6); padding: 12px; border-radius: 8px; }
+.qr { width: 84px; height: 84px; display: grid; grid-template-columns: repeat(9, 1fr); gap: 1px; padding: 4px; background: var(--surface); }
+.qr i { background: var(--surface); } .qr i.on { background: var(--ink); }
+.code { font-size: 22px; font-weight: 700; letter-spacing: 4px; font-variant-numeric: tabular-nums; }
+
+@media (max-width: 480px) {
+  .opts { grid-template-columns: 1fr; }
+  .bar-row { grid-template-columns: 74px 1fr 20px; }
+}
+@media (prefers-reduced-motion: reduce) { * { transition: none !important; animation: none !important; } }
+</style>
+
+<header class="bar">
+  <div class="bar-in">
+    <span class="tile-brand">Anchor</span>
+    <h1>Pick a design for each element</h1>
+    <div class="legend">
+      <span class="src fk">Flipkart</span>
+      <span class="src cl">Claude UX (BTP)</span>
+      <span class="src mix">Both combined</span>
+      <span class="src new">New — needs your design</span>
+    </div>
+  </div>
+</header>
+
+<main class="wrap" id="board">
+  <section class="intro">
+    <p><b>How this works.</b> Each block below is one element the Anchor prototype needs. The options use only what came from flipkart.com (live pages checked 21 Oct 2026), the three Flipkart app screenshots, the vision-builder reference site, and the Claude-style chat patterns in your BTP app. Colours, radii and fonts are Flipkart's real values (Inter, #2874F0, 2 px and 8 px radii).</p>
+    <p>Tap <b>Choose</b> under one option per block, then <b>Copy my picks</b> at the bottom and paste the line back to me. Options tagged <span class="src new">New</span> exist in neither source; picking one means I build a plain version and you can send a design later.</p>
+  </section>
+</main>
+
+<div class="picks" role="region" aria-label="Your picks">
+  <div class="picks-in">
+    <span class="picks-count" id="pickCount">0 of 0 chosen</span>
+    <span class="picks-code" id="pickCode">No picks yet</span>
+    <span class="copy-msg" id="copyMsg" aria-live="polite"></span>
+    <button class="btn-copy" id="copyBtn" type="button">Copy my picks</button>
+  </div>
+</div>
+
+<script>
+(function () {
+  const ic = {
+    mic: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><rect x="9" y="3" width="6" height="11" rx="3"/><path d="M5 11a7 7 0 0 0 14 0M12 18v3"/></svg>',
+    send: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 19V5M6 11l6-6 6 6"/></svg>',
+    search: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="11" cy="11" r="6.5"/><path d="M20 20l-4.2-4.2"/></svg>',
+    finger: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><path d="M7.5 18.5c1-2 1.5-4.2 1.5-6.5a3 3 0 0 1 6 0c0 1.2-.1 2.4-.3 3.5"/><path d="M5 15c.7-1 1-2 1-3a6 6 0 0 1 12 0c0 2.5-.4 5-1.4 7.3"/><path d="M12 12c0 3-.8 6-2.6 8.5"/></svg>',
+    shield: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 3l7 3v5c0 4.5-3 8.3-7 10-4-1.7-7-5.5-7-10V6z"/></svg>',
+    gift: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="4" y="9" width="16" height="11" rx="1"/><path d="M3 9h18v3H3zM12 9v11"/></svg>',
+    cart: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M3 4h2l2.4 11h10.4L20 7H6.3"/></svg>'
+  };
+  const qrCells = (seed) => { let s = seed, out = ''; for (let i = 0; i < 81; i++) { s = (s * 9301 + 49297) % 233280; const x = i % 9, y = Math.floor(i / 9); const f = (x < 3 && y < 3) || (x > 5 && y < 3) || (x < 3 && y > 5); out += '<i class="' + ((f ? !(x % 6 === 1 && y % 6 === 1) : s / 233280 > .5) ? 'on' : '') + '"></i>'; } return out; };
+
+  const EL = [
+    { id: 'buttons', title: 'Action buttons (Approve / Decline / Compare)', where: 'Decision cards, Speed Bump, forms', opts: [
+      { src: 'fk', name: 'Flipkart product page pair', note: 'From the live product page: outlined "Add to cart" + yellow-gradient "Buy now" with a second line. Compare becomes a blue text action like "Apply".',
+        html: '<div class="pv-card"><div class="pv-row"><button class="b-link">Compare</button></div><div class="pv-row"><button class="b-cart">Decline</button><button class="b-buy">Approve<small>₹18,000 / year</small></button></div></div>' },
+      { src: 'fk', name: 'Flipkart classic (2 px, uppercase)', note: 'Login/checkout buttons: 2 px radius, 13 px weight 500. Disabled grey #C2C2C2 matches the login modal — useful for the 10-second Speed Bump.',
+        html: '<div class="pv-card"><div class="pv-row"><button class="b-classic wh">Decline</button><button class="b-classic or">Approve</button></div><div class="pv-row"><button class="b-classic dis">Approve in 7s</button></div></div>' },
+      { src: 'cl', name: 'Claude UX primary + ghost', note: 'BTP form buttons (10 px radius) recoloured to Flipkart blue.',
+        html: '<div class="pv-card"><div class="pv-row"><button class="b-ghost">Decline</button><button class="b-ghost">Compare</button><button class="b-pri">Approve</button></div></div>' }
+    ] },
+    { id: 'chat', title: 'Agent chat messages', where: 'Agent tab', opts: [
+      { src: 'cl', name: 'Claude style: agent as plain text', note: 'BTP: agent reply is plain text beside a small avatar, user gets a tinted bubble (18/18/4/18), timestamps, typing dots.',
+        html: '<div class="c-row me"><div class="c-me-tint">Find a birthday gift for Amma.<span class="c-time">6:31 pm</span></div></div><div class="c-row"><span class="c-av">O</span><div class="c-text">On it — a gift for Amma\'s birthday.<span class="c-time">6:31 pm</span></div></div><div class="c-row"><span class="c-av">O</span><span class="dots3"><i></i><i></i><i></i></span></div>' },
+      { src: 'mix', name: 'Bubbles on Flipkart grey', note: 'Agent in white Flipkart cards on #F1F3F6, user in solid Flipkart blue. Feels more like a shopping app chat.',
+        html: '<div class="c-row me"><div class="c-me-blue">Find a birthday gift for Amma.<span class="c-time" style="color:#DCE8FD">6:31 pm</span></div></div><div class="c-row"><span class="c-av">O</span><div class="c-bot-card">On it — a gift for Amma\'s birthday.<span class="c-time">6:31 pm</span></div></div>' }
+    ] },
+    { id: 'card', title: 'Decision card layout', where: 'In chat and in Guard → Waiting', opts: [
+      { src: 'cl', name: 'Claude "run card" with stat grid', note: 'BTP result card: dot + title, key/value tiles, actions underneath.',
+        html: '<div class="pv-card"><div class="k-head">Orbit wants to switch your insurance</div><div class="k-grid"><div class="k-stat"><div class="k">Amount</div><div class="v">₹18,000 / year</div></div><div class="k-stat"><div class="k">To</div><div class="v">SecureLife · new</div></div><div class="k-stat"><div class="k">Undo</div><div class="v">Hard for 12 months</div></div><div class="k-stat"><div class="k">Trust</div><div class="v" style="color:#E8273A">Check this</div></div></div></div>' },
+      { src: 'fk', name: 'Flipkart product-page layout', note: 'Title, purple deal-style tag for the label, big price line with the green "↓ %" pattern for cheaper options.',
+        html: '<div class="pv-card"><div class="pv-title">Switch health insurance to SecureLife Plus</div><span class="deal">Your agent earns commission</span><div class="bigp">₹18,000 <s>/year</s></div><div class="pv-sub">2 options up to <b style="color:#008042">↓21%</b> cheaper · Hard to undo for 12 months</div></div>' },
+      { src: 'fk', name: 'Flipkart "Apply offers" panel', note: 'Blue gradient header with white cards inside (radius 16 / 12), straight from the product page offers block.',
+        html: '<div class="offers"><div class="offers-h">Orbit wants to switch your insurance</div><div class="offers-b"><div class="offers-in"><b>₹18,000 / year · SecureLife Plus</b><span class="mut" style="font-size:12px">New payee · hard to undo for 12 months</span></div><div class="offers-in"><span class="best">Cheaper with equal cover</span><div class="pv-row" style="justify-content:space-between"><b>CareFirst Basic ₹14,200</b><span style="color:#1162F2;font-weight:600">Compare</span></div></div></div></div>' }
+    ] },
+    { id: 'trust', title: 'Trust label (green / yellow / red / grey)', where: 'Every commercial recommendation (PRD 3: colour + icon + word)', opts: [
+      { src: 'fk', name: 'Rating-pill style (filled)', note: 'Flipkart search-result rating pill: 3 px radius, white 12 px text, recoloured per label.',
+        html: '<div class="pv-row"><span class="t-pill g">✓ No conflict</span><span class="t-pill y">₹ Agent gains</span></div><div class="pv-row"><span class="t-pill r">! Check this</span><span class="t-pill k">? Couldn\'t check</span></div>' },
+      { src: 'fk', name: 'Deal-tag style (tinted)', note: 'Like "Lowest Price Live": tinted background, bold coloured text, 2 px radius, plus the veg/non-veg square dot from PRD 3.',
+        html: '<div class="pv-row"><span class="t-tag g"><span class="vegbox"><i></i></span>No conflict found</span></div><div class="pv-row"><span class="t-tag y"><span class="vegbox"><i></i></span>Your agent gains from this</span></div><div class="pv-row"><span class="t-tag r"><span class="vegbox"><i></i></span>Your agent skipped cheaper options</span></div><div class="pv-row"><span class="t-tag k"><span class="vegbox"><i></i></span>Couldn\'t check this</span></div>' },
+      { src: 'fk', name: 'New rating-chip style (grey)', note: 'Product page chip "3.6★ | 67": grey #F5F5F5, 8 px radius; coloured dot carries the meaning.',
+        html: '<div class="pv-row"><span class="t-chip"><span class="dot g"></span>No conflict<span class="sep"></span>Why</span><span class="t-chip"><span class="dot r"></span>Check this<span class="sep"></span>Why</span></div><div class="pv-row"><span class="t-chip"><span class="dot y"></span>Agent gains<span class="sep"></span>Why</span><span class="t-chip"><span class="dot k"></span>Couldn\'t check<span class="sep"></span>Why</span></div>' }
+    ] },
+    { id: 'mefirst', title: 'Me-First prompt ("Your take first?")', where: 'Agent chat, before the agent answers', opts: [
+      { src: 'cl', name: 'Claude question picker', note: 'BTP ask_user card: numbered options with keyboard numbers, dashed "Something else" for typing, Skip on the side.',
+        html: '<div class="q-card"><div class="q-q">Your take first? What would you get her?</div><div class="q-opt hi"><span class="q-num">1</span>I\'ll type my idea</div><div class="q-opt"><span class="q-num">2</span>I\'m not sure yet</div><div class="q-opt"><span class="q-num">3</span>Not now (2 h)</div><div class="q-opt q-else"><span>Something for her garden…</span><span>Skip once</span></div></div>' },
+      { src: 'fk', name: 'Flipkart card + search field + chips', note: 'White card, the Flipkart search bar as the answer field (mic inside), choices as outline chips.',
+        html: '<div class="pv-card"><div class="pv-title">Your take first?</div><div class="pv-sub">What would you get her?</div><div class="fk-search"><span class="grow">Type or tap the mic…</span><span class="ico">' + ic.mic + '</span></div><div class="chips"><span>I\'m not sure yet</span><span>Skip once</span><span>Not now</span></div></div>' }
+    ] },
+    { id: 'input', title: 'Text input with send (chat composer)', where: 'Agent tab bottom', opts: [
+      { src: 'cl', name: 'Claude composer pill', note: 'BTP composer: rounded 24 px, text area on top, mic + square send below, focus ring.',
+        html: '<div class="composer"><div class="ph">Ask your agent…</div><div class="ctl"><span class="ico">' + ic.mic + '</span><span class="sp"></span><span class="sq">' + ic.send + '</span></div></div>' },
+      { src: 'fk', name: 'Flipkart search bar', note: 'The app/site search: 8 px radius, light-blue outline, icon left, mic right; send sits beside it.',
+        html: '<div class="pv-row"><div class="fk-search" style="flex:1"><span class="ico" style="width:auto">' + ic.search + '</span><span class="grow">Ask your agent…</span><span class="ico">' + ic.mic + '</span></div><span class="sq" style="width:42px;height:42px">' + ic.send + '</span></div>' }
+    ] },
+    { id: 'sheet', title: 'Detail panels (Why this label, Second Opinion, rules, settings)', where: 'Opened from cards and tabs', opts: [
+      { src: 'cl', name: 'Claude inline panel above the composer', note: 'BTP "form pad": a closable card that slides in place, no dark overlay. Keeps the chat visible.',
+        html: '<div class="formpad"><div class="formpad-h">Second opinion<span class="mut">✕</span></div><div class="pv-sub">Your agent picked: SecureLife Plus, ₹18,000</div><div class="pv-row" style="justify-content:space-between"><b style="font-size:13px">CareFirst Basic</b><b style="font-size:13px">₹14,200</b></div></div><div class="composer"><div class="ph">Ask your agent…</div></div>' },
+      { src: 'fk', name: 'Flipkart login modal', note: 'The desktop login dialog: 60% black scrim, blue left panel with title, white right panel.',
+        html: '<div class="scrim"><div class="split"><div class="l"><b>Second opinion</b><span>Anchor earns nothing from these</span></div><div class="r"><b>CareFirst Basic</b><span class="mut">₹14,200 · equal cover</span><b>HealthNet One</b><span class="mut">₹15,900</span></div></div></div>' },
+      { src: 'new', name: 'Bottom sheet (new)', note: 'Common on phones but not in either source. Pick this only if you will send a design.',
+        html: '<div style="background:rgba(0,0,0,.45);border-radius:8px;padding-top:40px;overflow:hidden"><div style="background:#fff;border-radius:16px 16px 0 0;padding:10px 12px;display:grid;gap:6px"><div style="width:36px;height:4px;border-radius:4px;background:#DBDBDB;justify-self:center"></div><b style="font-size:13px">Second opinion</b><span class="pv-sub">Placeholder only</span></div></div>' }
+    ] },
+    { id: 'activity', title: 'Showing what Anchor did in the chat', where: 'Under agent messages (hook, rules, trust check)', opts: [
+      { src: 'cl', name: 'Claude tool-step lines', note: 'Collapsible "steps" like Claude\'s tool use: a quiet line that expands to the checks Anchor ran.',
+        html: '<div class="pv-card"><div class="step"><span class="ck">✓</span>Anchor checked this · 3 checks ▾</div><div class="step-list"><span>Rule: payments ₹5,000–₹49,999 → Ask</span><span>Trust: 2 cheaper plans with equal cover</span><span>Held for your decision</span></div></div>' },
+      { src: 'fk', name: 'No steps, only the card', note: 'Keep the chat clean; details live behind "Why this label" and in History.',
+        html: '<div class="pv-card"><div class="pv-title" style="font-size:13px">Decision card appears directly</div><div class="pv-sub">No extra lines in the chat.</div></div>' }
+    ] },
+    { id: 'toast', title: 'Confirmations and Undo (10 s)', where: 'After approve, reclassify, report', opts: [
+      { src: 'cl', name: 'Inline status inside the card', note: 'Claude-style: the result is written into the card/message itself, with Undo next to it.',
+        html: '<div class="pv-card"><div class="pv-title" style="font-size:13px">Booked weekly home cleaning</div><div class="inline-status"><span class="ok">✓</span>Not counted any more · <b style="color:#1162F2">Undo</b> <span class="mut">(9s)</span></div></div>' },
+      { src: 'cl', name: 'Tinted notice line', note: 'BTP "auth notice": a light blue tinted line at the top of the screen.',
+        html: '<div class="notice-tint">Got it. We won\'t count things like this next time. <b style="color:#1162F2">Undo</b></div>' },
+      { src: 'new', name: 'Dark snackbar (new)', note: 'Not in either source.',
+        html: '<div class="snack">Counted as not meaningful<b>UNDO</b></div>' }
+    ] },
+    { id: 'auth', title: 'Device confirmation (fingerprint)', where: 'Before approving high-stakes actions', opts: [
+      { src: 'fk', name: 'Navy full screen (Flipkart Play)', note: 'Uses the dark immersive surface from your Play screenshot, matching the Speed Bump.',
+        html: '<div class="night"><span class="live">● HIGH STAKES</span><span class="finger">' + ic.finger + '</span><b>Confirm it\'s you</b><span style="font-size:12px;opacity:.8">Touch the fingerprint sensor</span></div>' },
+      { src: 'cl', name: 'Inline step in the card', note: 'Claude-style: the card itself switches to a "Confirm with fingerprint" step.',
+        html: '<div class="pv-card"><div class="k-head">Approve ₹18,000 switch</div><div class="pv-row"><span class="finger lt" style="width:44px;height:44px">' + ic.finger + '</span><div><b style="font-size:13px">Confirm it\'s you</b><div class="pv-sub">Touch the sensor to finish</div></div></div></div>' }
+    ] },
+    { id: 'areabars', title: 'Statement: decisions by life area', where: 'Mirror tab', opts: [
+      { src: 'fk', name: 'Flipkart ratings-breakdown bars', note: 'Like the product page star breakdown: label, thin rounded bar, count. Blue = yours, light = approved, grey = autopilot.',
+        html: '<div class="pv-card"><div class="bars"><div class="bar-row"><span>Money</span><span class="bar-track"><i style="width:45%;background:#2874F0"></i><i style="width:20%;background:#9CC0F9"></i><i style="width:35%;background:#C9CDD3"></i></span><b>11</b></div><div class="bar-row"><span>Shopping</span><span class="bar-track"><i style="width:38%;background:#2874F0"></i><i style="width:31%;background:#9CC0F9"></i><i style="width:31%;background:#C9CDD3"></i></span><b>13</b></div><div class="bar-row"><span>Home</span><span class="bar-track"><i style="width:0;background:#2874F0"></i><i style="width:25%;background:#9CC0F9"></i><i style="width:75%;background:#C9CDD3"></i></span><b>4</b></div></div></div>' },
+      { src: 'cl', name: 'Claude stat grid (numbers only)', note: 'No chart: each area as a key/value tile with its share.',
+        html: '<div class="k-grid"><div class="k-stat"><div class="k">Money</div><div class="v">55% yours · 11</div></div><div class="k-stat"><div class="k">Shopping</div><div class="v">54% yours · 13</div></div><div class="k-stat"><div class="k">Home</div><div class="v" style="color:#E8273A">0% yours · 4</div></div><div class="k-stat"><div class="k">Plans</div><div class="v">57% yours · 7</div></div></div>' }
+    ] },
+    { id: 'loyalty', title: 'Agent Loyalty Score', where: 'Mirror tab', opts: [
+      { src: 'new', name: 'Score ring (new)', note: 'A ring chart is not in either source.',
+        html: '<div class="pv-card"><div class="pv-row"><span class="ring" style="--v:62"><b>62%</b></span><div><b style="font-size:13px">Agent Loyalty Score</b><div class="pv-sub">No-conflict picks ÷ all labelled picks</div></div></div></div>' },
+      { src: 'fk', name: 'Rating pill + breakdown', note: 'Flipkart rating language: one big pill like "4.1★", then green/yellow/red bars like the star breakdown.',
+        html: '<div class="pv-card"><div class="pv-row"><span class="t-pill g" style="font-size:16px;padding:4px 8px">62%</span><b style="font-size:13px">Agent Loyalty Score</b></div><div class="histo"><div><span>✓</span><span class="trk"><i style="width:62%;background:#26A541"></i></span><span>14</span></div><div><span>₹</span><span class="trk"><i style="width:27%;background:#F5B700"></i></span><span>6</span></div><div><span>!</span><span class="trk"><i style="width:11%;background:#E8273A"></i></span><span>2</span></div></div></div>' }
+    ] },
+    { id: 'progress', title: 'Progress (Learner\'s Licence level, daily prompts)', where: 'Family and Grow tabs', opts: [
+      { src: 'fk', name: 'Flipkart pagination pills', note: 'The banner carousel dots: active is a long dark pill. Used as level steps.',
+        html: '<div class="pv-card"><div class="pv-row" style="justify-content:space-between"><b style="font-size:13px">Money · Level 2</b><span class="seg-pills"><i class="on"></i><i class="on"></i><i></i><i></i></span></div><div class="pv-sub">Next level: 1 more week and 3 more decisions</div></div>' },
+      { src: 'cl', name: 'Claude questionnaire dots', note: 'BTP progress dots: done = filled blue, current = ring.',
+        html: '<div class="pv-card"><div class="pv-row" style="justify-content:space-between"><b style="font-size:13px">Money · Level 2</b><span class="qdots"><i class="done"></i><i class="on"></i><i></i><i></i></span></div><div class="pv-sub">Next level: 1 more week and 3 more decisions</div></div>' }
+    ] },
+    { id: 'toggle', title: 'On / off settings', where: 'Grow areas, settings, simulation toggles', opts: [
+      { src: 'fk', name: 'Flipkart filter checkbox', note: 'Search filters: 15 px box, 2 px radius, #C2C2C2 border, blue when ticked. Also matches the reference sidebar checkbox.',
+        html: '<div class="pv-card"><div class="cbx"><i class="on"></i>Gifts and occasions</div><div class="cbx"><i></i>Plans and outings</div><div class="cbx"><i class="on"></i>Writing</div></div>' },
+      { src: 'cl', name: 'Claude segmented pills', note: 'BTP seg pills: selected = blue tint with inset outline.',
+        html: '<div class="pv-card"><div class="pv-row" style="justify-content:space-between"><span style="font-size:13px">Gifts and occasions</span><span class="seg"><span class="on">On</span><span>Off</span></span></div><div class="pv-row" style="justify-content:space-between"><span style="font-size:13px">Plans and outings</span><span class="seg"><span>On</span><span class="on">Off</span></span></div></div>' }
+    ] },
+    { id: 'forms', title: 'Form fields (amount, area, daily limit)', where: 'Add a rule, join family, daily cap', opts: [
+      { src: 'fk', name: 'Flipkart floating-label field + − + stepper', note: 'Login modal field (label sits on the blue border) and the product page quantity stepper.',
+        html: '<div class="pv-card"><div class="float"><label>Payments over (₹)</label>5,000</div><div class="pv-row" style="justify-content:space-between"><span style="font-size:13px">Prompts per day</span><span class="stepper"><span>−</span><b>5</b><span>+</span></span></div></div>' },
+      { src: 'cl', name: 'Claude choice pills + plain field', note: 'BTP forms: choices as pills instead of dropdowns, 10 px rounded input.',
+        html: '<div class="pv-card"><span class="pv-sub">Life area</span><span class="seg"><span class="on">Money</span><span>Shopping</span><span>Health</span></span><div style="border:1px solid #DBDBDB;border-radius:10px;padding:8px 10px;font-size:13px">₹ 5,000</div></div>' }
+    ] },
+    { id: 'invite', title: 'Family invite code', where: 'Family → Add family', opts: [
+      { src: 'mix', name: 'White card with QR + big code', note: 'Only one sensible option; built from a Flipkart white card. Confirm or send a design.',
+        html: '<div class="pv-card" style="justify-items:center;text-align:center"><div class="qr">' + qrCells(7) + '</div><span class="code">482 913</span><span class="pv-sub">They open Anchor → Family → Join</span></div>' }
+    ] },
+    { id: 'table', title: 'Operator tables (ledger, metrics, tests)', where: 'Demo console (desktop)', opts: [
+      { src: 'fk', name: 'Flipkart specifications table', note: 'Product page "Specifications": grey label column, value column, hairline rows.',
+        html: '<div class="pv-card"><table class="spec"><tr><td>Persona</td><td>Meera</td></tr><tr><td>Resolution</td><td>modified</td></tr><tr><td>Trust label</td><td>red · skipped cheaper</td></tr><tr><td>Verdict time</td><td>4 ms</td></tr></table></div>' },
+      { src: 'cl', name: 'Claude stat tiles', note: 'BTP run-card grid of small key/value tiles.',
+        html: '<div class="k-grid"><div class="k-stat"><div class="k">Persona</div><div class="v">Meera</div></div><div class="k-stat"><div class="k">Resolution</div><div class="v">modified</div></div><div class="k-stat"><div class="k">Trust</div><div class="v">red</div></div><div class="k-stat"><div class="k">Verdict</div><div class="v">4 ms</div></div></div>' }
+    ] },
+    { id: 'images', title: 'Product images (insurance plans, gifts, game gems)', where: 'Second Opinion, gift suggestions', opts: [
+      { src: 'mix', name: 'Coloured icon tiles', note: 'Current placeholder: category colour + line icon.',
+        html: '<div class="thumbs"><span class="th a">' + ic.shield + '</span><span class="th b">' + ic.gift + '</span><span class="th c">' + ic.cart + '</span></div>' },
+      { src: 'fk', name: 'Flipkart grey placeholder', note: 'The skeleton grey from your first screenshot, used as a quiet image slot.',
+        html: '<div class="thumbs"><span class="th sk"></span><span class="th sk"></span><span class="th sk"></span></div>' },
+      { src: 'new', name: 'Real product photos', note: 'Flipkart uses real photos. You would need to send images (or let me use local copies).',
+        html: '<div class="thumbs"><span class="th photo">your photo</span><span class="th photo">your photo</span><span class="th photo">your photo</span></div>' }
+    ] },
+    { id: 'voice', title: 'Voice: listening state and spoken caption', where: 'Mic in chat, Hindi warnings for Rajan', opts: [
+      { src: 'cl', name: 'Claude recording mic in the composer', note: 'BTP: the mic button turns red and pulses while recording; caption appears as a quiet line.',
+        html: '<div class="composer"><div class="ph" style="color:#212121">रोक दो…</div><div class="ctl"><span class="ico" style="background:#E8273A;color:#fff">' + ic.mic + '</span><span class="sp"></span><span class="sq">' + ic.send + '</span></div></div>' },
+      { src: 'fk', name: 'Navy listening screen', note: 'Flipkart Play surface with the red LIVE pill as "Listening".',
+        html: '<div class="night"><span class="live">● LISTENING</span><span class="finger">' + ic.mic + '</span><span style="font-size:13px">बोलिए: "रोक दो" या "आगे बढ़ो"</span></div>' }
+    ] },
+    { id: 'panel', title: 'Demo control panel (beside the phone)', where: 'Desktop shell', opts: [
+      { src: 'fk', name: 'Sidebar vocabulary', note: 'Same look as the reference sidebar: white, uppercase group labels, rows with icon circles.',
+        html: '<div class="sb"><span class="lbl">Scenario runner</span><span class="it on"><span class="ci">S3</span>Bank-officer scam</span><span class="it"><span class="ci">S1</span>Insurance switch</span><span class="lbl">Simulation</span><span class="it"><span class="ci">⏻</span>Kill Anchor</span></div>' },
+      { src: 'fk', name: 'Hub-manager page vocabulary', note: 'Underline tabs with red count circles and white cards, from the reference hub-manager view.',
+        html: '<div class="pv-card"><div class="hub-tabs"><span class="on">Scenarios</span><span>Toggles</span><span>Log<span class="count">7</span></span></div><div class="pv-sub">S3 · step 2 of 5 · Speed Bump shown</div></div>' }
+    ] }
+  ];
+
+  const board = document.getElementById('board');
+  const srcLabel = { fk: 'Flipkart', cl: 'Claude UX', mix: 'Both', new: 'New' };
+  let html = '';
+  EL.forEach((el, i) => {
+    html += '<section class="el" aria-labelledby="h-' + el.id + '"><div class="el-head"><span class="el-num">' + String(i + 1).padStart(2, '0') + '</span><h2 id="h-' + el.id + '">' + el.title + '</h2><span class="el-where">' + el.where + '</span></div><div class="opts">';
+    el.opts.forEach((o, j) => {
+      const L = String.fromCharCode(65 + j);
+      const id = 'pick-' + el.id + '-' + L;
+      html += '<div class="opt"><div class="opt-top"><span class="opt-letter">' + L + '</span><span class="opt-name">' + o.name + '</span><span class="src ' + o.src + '">' + srcLabel[o.src] + '</span></div>' +
+        '<div class="stage">' + o.html + '</div><div class="opt-note">' + o.note + '</div>' +
+        '<input type="radio" name="' + el.id + '" id="' + id + '" value="' + L + '"><label class="pick" for="' + id + '">Choose ' + L + '</label></div>';
+    });
+    html += '</div></section>';
+  });
+  board.insertAdjacentHTML('beforeend', html);
+
+  const count = document.getElementById('pickCount');
+  const code = document.getElementById('pickCode');
+  const msg = document.getElementById('copyMsg');
+  function summary() {
+    const parts = [];
+    EL.forEach((el, i) => { const c = document.querySelector('input[name="' + el.id + '"]:checked'); if (c) parts.push((i + 1) + c.value); });
+    return parts;
+  }
+  function update() {
+    const p = summary();
+    count.textContent = p.length + ' of ' + EL.length + ' chosen';
+    code.textContent = p.length ? 'Anchor picks: ' + p.join(' ') : 'No picks yet';
+    try { const s = {}; EL.forEach((el) => { const c = document.querySelector('input[name="' + el.id + '"]:checked'); if (c) s[el.id] = c.value; }); localStorage.setItem('anchorPicks', JSON.stringify(s)); } catch (e) { /* storage unavailable */ }
+  }
+  try { const s = JSON.parse(localStorage.getItem('anchorPicks') || '{}'); Object.keys(s).forEach((k) => { const r = document.getElementById('pick-' + k + '-' + s[k]); if (r) r.checked = true; }); } catch (e) { /* storage unavailable */ }
+  board.addEventListener('change', update);
+  update();
+
+  document.getElementById('copyBtn').addEventListener('click', () => {
+    const text = code.textContent;
+    const done = () => { msg.textContent = 'Copied — paste it in the chat'; setTimeout(() => { msg.textContent = ''; }, 2600); };
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+      navigator.clipboard.writeText(text).then(done).catch(() => { selectText(); msg.textContent = 'Selected — press Ctrl+C'; });
+    } else { selectText(); msg.textContent = 'Selected — press Ctrl+C'; }
+  });
+  function selectText() { const r = document.createRange(); r.selectNodeContents(code); const s = window.getSelection(); s.removeAllRanges(); s.addRange(r); }
+})();
+</script>

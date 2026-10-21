@@ -1,0 +1,82 @@
+/* Design tokens — Flipkart values measured on flipkart.com (21 Oct 2026) and the three app
+   screenshots, plus the reference shell (GUARDRAILS.md §1–2). Component CSS uses only these. */
+:root {
+  /* Flipkart brand */
+  --fk-blue: #2874F0;
+  --fk-blue-dark: #1E55E8;
+  --fk-link: #1162F2;
+  --fk-blue-tint: #E8F0FE;
+  --fk-blue-wash: #DCEBFF;          /* offers panel body */
+  --fk-blue-soft: #9CC0F9;
+  --fk-yellow: #FFE11B;
+  --fk-yellow-deep: #FFC200;
+  --fk-gold: linear-gradient(#F7D98B, #FFF0BA, #F7D98B);   /* "Best value for you" */
+  --fk-buy: linear-gradient(180deg, #FFE11B 0%, #FFC200 100%); /* "Buy now" */
+  --fk-offers: linear-gradient(90deg, #1E55E8 0%, #2874F0 100%); /* "Apply offers" header */
+  --fk-red: #E8273A;
+  --fk-red-tint: #FDE8EA;
+  --fk-rating: #388E3C;             /* rating pill / % off */
+  --fk-green-text: #008042;         /* product-page ↓% */
+  --fk-green-bright: #26A541;       /* "Lowest Price Live" */
+  --fk-green-tint: #E7F8EC;
+  --fk-purple: #5209DB;             /* "Top Discount of the Sale" */
+  --fk-purple-tint: #F4F2FF;
+  --fk-amber: #C58A00;
+  --fk-amber-tint: #FFF6D6;
+  --fk-grey-label: #6B6F76;
+  --fk-festive: linear-gradient(180deg, #E8336A 0%, #E2264D 100%);
+  --fk-sunset: linear-gradient(180deg, #F0466D 0%, #FF7A2F 58%, #FFC21A 100%);
+  --fk-night: linear-gradient(180deg, #13214A 0%, #05070F 100%);
+  --fk-navy: #0E1A3A;
+  --fk-pattern: radial-gradient(rgba(255,255,255,.16) 1px, transparent 1.4px);
+
+  /* Neutrals (flipkart.com) */
+  --ink: #212121;
+  --ink-2: #333333;
+  --muted: #878787;
+  --line: #DBDBDB;
+  --line-2: #F0F0F0;
+  --chip: #F5F5F5;
+  --disabled: #C2C2C2;
+  --page: #F1F3F6;
+  --surface: #FFFFFF;
+  --skeleton: #E8E8E8;
+  --scrim: rgba(0, 0, 0, .6);       /* login modal scrim */
+
+  /* Shell (reference prototype) */
+  --shell-bg: #F5F5F7;
+  --shell-ink: #1F1F1F;
+  --shell-muted: #6B6B6B;
+  --frame: #1F1F1F;
+  --tag-bg: #1F1F1F;
+
+  /* Radius */
+  --r-2: 2px;   /* classic buttons, deal tags, login modal */
+  --r-3: 3px;   /* rating pill */
+  --r-8: 8px;   /* product-page buttons, rating chip, search bar, cards */
+  --r-10: 10px; /* Claude pills/fields (BTP) */
+  --r-12: 12px; /* offers inner cards */
+  --r-16: 16px; /* offers panel, tiles */
+  --r-18: 18px; /* user bubble */
+  --r-20: 20px; /* banners */
+  --r-pill: 999px;
+  --r-frame: 40px;
+
+  /* Type (Flipkart uses Inter) */
+  --font: "Inter", system-ui, -apple-system, "Segoe UI", Roboto, "Noto Sans Devanagari", sans-serif;
+  --fs-10: 10px; --fs-11: 11px; --fs-12: 12px; --fs-13: 13px; --fs-14: 14px;
+  --fs-16: 16px; --fs-18: 18px; --fs-20: 20px; --fs-24: 24px; --fs-28: 28px; --fs-44: 44px;
+
+  --s1: 4px; --s2: 8px; --s3: 12px; --s4: 16px; --s5: 20px; --s6: 24px;
+
+  --sh-frame: 0 25px 50px -12px rgba(0, 0, 0, .25);
+
+  --sidebar-w: 240px;
+  --rail-w: 64px;
+  --panel-w: 300px;
+  --phone-w: 390px;
+  --phone-h: 844px;
+  --frame-border: 10px;
+  --tap: 44px;
+  --ease: cubic-bezier(.2, .8, .2, 1);
+}

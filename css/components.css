@@ -1,0 +1,220 @@
+/* Components — only elements traced to the references and the user's picks (GUARDRAILS.md §2.3):
+   1A product-page button pair · 4A rating pill · 7B login modal · 9B tinted notice · 10B in-card
+   fingerprint · 13B dots · 14B On/Off pills · 15B pills + plain field · 18A icon tiles · 19A red mic.
+   No drop shadows except the phone frame; no invented animation. */
+.ic { width: 20px; height: 20px; flex-shrink: 0; }
+
+/* ---------- Buttons: Flipkart product-page pair (pick 1A) ---------- */
+.btn-pair { display: flex; gap: var(--s2); }
+.btn-out, .btn-buy {
+  flex: 1; min-height: var(--tap); padding: 4px 12px; border-radius: var(--r-8);
+  display: inline-flex; flex-direction: column; align-items: center; justify-content: center; gap: 0;
+  font-weight: 600; font-size: var(--fs-16); line-height: 1.15; text-decoration: none; text-align: center;
+}
+.btn-out { background: var(--surface); color: var(--ink); border: 1px solid var(--line); }
+.btn-buy { background: var(--fk-buy); color: var(--ink); border: 0; }
+.btn-buy small, .btn-out small { font-size: var(--fs-12); font-weight: 500; }
+.btn-buy[disabled] { background: var(--disabled); color: var(--surface); cursor: not-allowed; }
+.btn-out[disabled] { color: var(--disabled); cursor: not-allowed; }
+.btn-out.is-block, .btn-buy.is-block { width: 100%; flex: none; }
+.btn-out .ic, .btn-buy .ic { width: 18px; height: 18px; }
+.btn-out.is-night { background: transparent; color: var(--surface); border-color: rgba(255,255,255,.4); flex-direction: row; gap: 8px; }
+.btn-out.is-night.is-quiet { border-style: dashed; color: rgba(255,255,255,.85); }
+.btn-out.is-night[disabled] { color: rgba(255,255,255,.45); border-color: rgba(255,255,255,.2); }
+.btn-buy.is-stop { background: var(--fk-red); color: var(--surface); min-height: 56px; font-size: var(--fs-18); }
+/* Compare and secondary actions: Flipkart blue text action ("Apply", "Add Item", "more") */
+.text-act {
+  display: inline-flex; align-items: center; gap: 4px; padding: 6px 2px; border: 0; background: none;
+  color: var(--fk-link); font-weight: 600; font-size: var(--fs-14); text-decoration: none; white-space: nowrap;
+}
+.text-act .ic { width: 16px; height: 16px; }
+.text-act.is-night { color: var(--fk-yellow); }
+.text-act[disabled] { color: var(--disabled); }
+
+/* Legacy class names used across tabs, mapped onto the picked vocabulary */
+.btn { display: inline-flex; align-items: center; justify-content: center; gap: 6px; min-height: var(--tap); padding: 0 14px; border-radius: var(--r-8); font-weight: 600; font-size: var(--fs-14); border: 1px solid transparent; text-decoration: none; background: var(--surface); color: var(--ink); }
+.btn .ic { width: 18px; height: 18px; }
+.btn[disabled] { opacity: .5; cursor: not-allowed; }
+.btn-primary, .btn-yellow { background: var(--fk-buy); color: var(--ink); border: 0; }
+.btn-outline { border-color: var(--line); background: var(--surface); color: var(--ink); }
+.btn-light { background: transparent; color: var(--surface); border-color: rgba(255,255,255,.4); }
+.btn-ghost, .link-btn { background: none; border: 0; color: var(--fk-link); padding: 6px 2px; min-height: 0; font-weight: 600; font-size: var(--fs-14); display: inline-flex; align-items: center; gap: 4px; }
+.btn-ghost .ic, .link-btn .ic { width: 16px; height: 16px; }
+.btn-ghost.is-danger, .link-btn.is-danger { color: var(--fk-red); }
+.link-btn.is-light { color: var(--surface); }
+.btn-sm { min-height: 34px; padding: 0 12px; font-size: var(--fs-13); }
+.btn-xl { min-height: 56px; font-size: var(--fs-18); }
+.btn-block { width: 100%; }
+
+/* ---------- Trust label: Flipkart rating pill (pick 4A) ---------- */
+.tpill {
+  display: inline-flex; align-items: center; gap: 4px; max-width: 100%;
+  padding: 2px 6px 2px 5px; border-radius: var(--r-3); border: 0;
+  color: var(--surface); font-size: var(--fs-12); font-weight: 500; line-height: 1.4; text-align: left;
+}
+.tpill .ic { width: 12px; height: 12px; stroke-width: 2.4; }
+.tpill span { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.tpill.is-green { background: var(--fk-rating); }
+.tpill.is-yellow { background: var(--fk-amber); }
+.tpill.is-red { background: var(--fk-red); }
+.tpill.is-grey { background: var(--fk-grey-label); }
+.tpill.is-small { font-size: var(--fs-11); padding: 1px 5px 1px 4px; }
+button.tpill { cursor: pointer; }
+
+/* ---------- Deal tags: Flipkart tinted tags (2 px) ---------- */
+.dtag { display: inline-flex; align-items: center; gap: 4px; padding: 2px 6px; border-radius: var(--r-2); font-size: var(--fs-11); font-weight: 700; white-space: nowrap; }
+.dtag.is-purple { background: var(--fk-purple); color: var(--surface); font-size: var(--fs-12); padding: 3px 6px; white-space: normal; }
+.tier-auto { background: var(--chip); color: var(--ink-2); }
+.tier-notify { background: var(--fk-blue-tint); color: var(--fk-blue); }
+.tier-ask { background: var(--fk-amber-tint); color: var(--fk-amber); }
+.tier-never { background: var(--fk-red-tint); color: var(--fk-red); }
+.res-yours { background: var(--fk-green-tint); color: var(--fk-green-bright); }
+.res-approved { background: var(--fk-blue-tint); color: var(--fk-blue); }
+.res-quick { background: var(--fk-purple-tint); color: var(--fk-purple); }
+.res-auto { background: var(--chip); color: var(--ink-2); }
+.res-blocked { background: var(--fk-red-tint); color: var(--fk-red); }
+.res-pending { background: var(--fk-amber-tint); color: var(--fk-amber); }
+.res-muted { background: var(--line-2); color: var(--muted); }
+.best { display: inline-block; background: var(--fk-gold); color: var(--ink); font-size: var(--fs-12); padding: 0 6px; }
+.drop { color: var(--fk-green-text); font-weight: 700; }
+.live { display: inline-flex; align-items: center; gap: 4px; padding: 2px 9px; border-radius: var(--r-pill); background: var(--fk-red); color: var(--surface); font-size: var(--fs-11); font-weight: 800; letter-spacing: .3px; text-transform: uppercase; }
+.new-badge { background: var(--fk-yellow); color: var(--ink); font-size: var(--fs-11); font-weight: 800; padding: 2px 8px; border-radius: var(--r-pill); }
+.pill-count { background: var(--fk-blue-tint); color: var(--fk-blue); padding: 4px 10px; border-radius: var(--r-pill); font-size: var(--fs-12); font-weight: 700; white-space: nowrap; }
+
+/* ---------- Pills: On/Off (14B) and choices (15B), Claude/BTP seg pills ---------- */
+.seg-toggle, .pill-group { display: inline-flex; flex-wrap: wrap; gap: 6px; }
+.seg-pill {
+  min-height: 32px; padding: 0 12px; border-radius: var(--r-pill); border: 1px solid var(--line);
+  background: var(--surface); color: var(--ink); font-size: var(--fs-13);
+}
+.seg-pill.is-on { background: var(--fk-blue-tint); border-color: var(--fk-blue); color: var(--fk-blue); font-weight: 600; box-shadow: inset 0 0 0 1px var(--fk-blue); cursor: default; }
+.seg-pill[disabled] { opacity: .55; cursor: not-allowed; }
+.chip, .chip-btn {
+  display: inline-flex; align-items: center; gap: 6px; flex-shrink: 0;
+  min-height: 32px; padding: 0 12px; border-radius: var(--r-pill);
+  border: 1px solid var(--line); background: var(--surface); color: var(--ink); font-size: var(--fs-13);
+}
+.chip.is-quiet { color: var(--muted); }
+.chip[disabled], .chip-btn[disabled] { color: var(--disabled); cursor: not-allowed; }
+.chip-btn.is-active { background: var(--fk-blue-tint); border-color: var(--fk-blue); color: var(--fk-blue); font-weight: 600; box-shadow: inset 0 0 0 1px var(--fk-blue); }
+.chips { display: flex; flex-wrap: wrap; gap: 6px; }
+
+/* ---------- Progress dots (13B) ---------- */
+.qdots { display: inline-flex; gap: 6px; align-items: center; }
+.qdots i { width: 8px; height: 8px; border-radius: 50%; background: var(--line); display: block; }
+.qdots i.done { background: var(--fk-blue); }
+.qdots i.on { background: var(--fk-blue); box-shadow: 0 0 0 3px var(--fk-blue-tint); }
+
+/* ---------- Fields (15B plain field; Flipkart search bar for text entry) ---------- */
+.field { display: grid; gap: 6px; margin-bottom: var(--s3); font-size: var(--fs-13); color: var(--ink); font-weight: 600; }
+.field input, .field select, .finput {
+  min-height: 40px; padding: 0 11px; border-radius: var(--r-10); border: 1px solid var(--line);
+  background: var(--surface); font-size: var(--fs-16); color: var(--ink); font-weight: 400;
+}
+.field input:focus, .finput:focus { border-color: var(--fk-blue); outline: none; }
+.flabel { font-size: var(--fs-13); font-weight: 600; }
+.form { display: grid; gap: var(--s3); }
+.form-error { display: flex; align-items: center; gap: 8px; padding: 9px 11px; border-radius: var(--r-10); background: var(--fk-red-tint); color: var(--fk-red); font-size: var(--fs-13); font-weight: 600; }
+.form-error .ic { width: 16px; height: 16px; }
+
+/* ---------- Skeleton-first (static grey, Flipkart screenshot 1) ---------- */
+.sk { background: var(--skeleton); border-radius: var(--r-20); }
+.sk-wrap { display: grid; gap: 16px; padding: 16px; }
+.sk-row { display: grid; grid-auto-flow: column; grid-auto-columns: 1fr; gap: 12px; }
+
+/* ---------- Modal: Flipkart login dialog on the phone (pick 7B) ---------- */
+#phoneSheet { position: absolute; inset: 0; pointer-events: none; }
+#phoneSheet.is-open { pointer-events: auto; }
+.modal-scrim { position: absolute; inset: 0; background: var(--scrim); }
+.modal {
+  position: absolute; left: 12px; right: 12px; top: 64px; max-height: calc(100% - 96px);
+  display: flex; flex-direction: column; background: var(--surface); border-radius: var(--r-2); overflow: hidden;
+}
+.modal.is-tall { top: 52px; bottom: 24px; max-height: none; }
+.modal-x {
+  position: absolute; right: -2px; top: -46px; width: 40px; height: 40px; border: 0; background: none;
+  color: var(--surface); display: grid; place-items: center;
+}
+.modal { overflow: visible; }
+.modal-x .ic { width: 26px; height: 26px; stroke-width: 2; }
+.modal-band { background: var(--fk-blue); color: var(--surface); padding: 18px 18px 16px; border-radius: var(--r-2) var(--r-2) 0 0; }
+.modal-band h2 { margin: 0; font-size: var(--fs-24); font-weight: 500; line-height: 1.2; }
+.modal-band p { margin: 6px 0 0; font-size: var(--fs-14); line-height: 1.4; opacity: .92; }
+.modal-body { padding: 16px 18px 18px; overflow-y: auto; overscroll-behavior: contain; display: grid; gap: var(--s3); align-content: start; flex: 1; }
+.modal-foot { padding: 12px 18px 16px; border-top: 1px solid var(--line-2); }
+.modal-acts { display: grid; gap: 8px; justify-items: start; }
+.modal-acts .is-block { justify-self: stretch; }
+
+/* Navy full screen (Flipkart Play) for critical holds */
+.night-screen { position: absolute; inset: 0; background: var(--fk-night); color: var(--surface); overflow-y: auto; }
+
+/* ---------- Tinted notice line (pick 9B) + quiet caption (19A) ---------- */
+.toast-host { position: absolute; left: 10px; right: 10px; top: 8px; pointer-events: none; opacity: 0; transform: translateY(-6px); transition: opacity .18s, transform .18s var(--ease); z-index: 30; }
+.toast-host.is-on { opacity: 1; transform: none; }
+.notice { pointer-events: auto; display: flex; align-items: center; gap: 10px; padding: 9px 11px; border-radius: var(--r-10); background: var(--fk-blue-tint); border: 1px solid var(--line); color: var(--ink); font-size: var(--fs-13); }
+.notice span { flex: 1; min-width: 0; }
+.notice.is-ok { background: var(--fk-green-tint); }
+.notice.is-critical { background: var(--fk-red-tint); color: var(--fk-red); font-weight: 600; }
+.notice button { border: 0; background: none; color: var(--fk-link); font-weight: 700; padding: 2px 4px; white-space: nowrap; }
+.caption-host { position: absolute; left: 10px; right: 10px; bottom: 132px; pointer-events: none; opacity: 0; transition: opacity .18s; z-index: 29; }
+.caption-host.is-on { opacity: 1; }
+.caption { display: flex; gap: 8px; align-items: flex-start; padding: 8px 10px; border-radius: var(--r-10); background: var(--surface); border: 1px solid var(--line); color: var(--muted); font-size: var(--fs-12); line-height: 1.4; }
+.caption .ic { width: 14px; height: 14px; margin-top: 1px; }
+
+/* ---------- Fingerprint step inside the card (pick 10B) ---------- */
+.auth-step { display: flex; align-items: center; gap: 12px; }
+.auth-finger { width: 52px; height: 52px; border-radius: 50%; border: 0; flex-shrink: 0; display: grid; place-items: center; background: var(--fk-blue-tint); color: var(--fk-blue); }
+.auth-finger .ic { width: 30px; height: 30px; stroke-width: 1.5; }
+.auth-finger.is-ok { background: var(--fk-green-tint); color: var(--fk-green-bright); }
+.auth-text { flex: 1; min-width: 0; display: grid; gap: 1px; }
+.auth-text b { font-size: var(--fs-14); }
+.auth-text span { font-size: var(--fs-12); color: var(--muted); }
+.auth-text small { font-size: var(--fs-11); color: var(--muted); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.night-screen .auth-step { background: rgba(255,255,255,.08); border-radius: var(--r-12); padding: 12px; }
+.night-screen .auth-text span, .night-screen .auth-text small { color: rgba(255,255,255,.75); }
+.night-screen .auth-finger { background: rgba(255,255,255,.14); color: var(--surface); }
+
+/* ---------- Product image slot: icon tiles (pick 18A) ---------- */
+.thumb { width: 48px; height: 48px; border-radius: var(--r-8); display: grid; place-items: center; flex-shrink: 0; color: var(--surface); }
+.thumb .ic { width: 22px; height: 22px; }
+.thumb.is-insurance { background: linear-gradient(135deg, #4F8DF7, #1A5DC8); }
+.thumb.is-electronics { background: linear-gradient(135deg, #5A6378, #2B3140); }
+.thumb.is-groceries { background: linear-gradient(135deg, #43B26A, #108934); }
+.thumb.is-gifts { background: linear-gradient(135deg, #F27A9B, #E2264D); }
+.thumb.is-games { background: linear-gradient(135deg, #9B6CF0, #5B2BC4); }
+.thumb.is-travel { background: linear-gradient(135deg, #34B7E5, #1B7FB8); }
+.thumb.is-home { background: linear-gradient(135deg, #FFB648, #F07B12); }
+
+/* ---------- Misc ---------- */
+.empty { display: grid; justify-items: center; gap: 8px; padding: 24px 16px; color: var(--muted); text-align: center; border: 1px dashed var(--line); border-radius: var(--r-8); background: var(--surface); }
+.empty .ic { width: 30px; height: 30px; }
+.empty p { margin: 0; max-width: 260px; }
+.mut, .muted { color: var(--muted); }
+.small { font-size: var(--fs-12); }
+.pad { padding: 12px 12px; }
+.pad-x { padding: 0 4px; }
+.h3 { font-size: var(--fs-16); margin: 0 0 8px; display: flex; align-items: center; gap: 6px; font-weight: 600; }
+.mini-h { font-size: var(--fs-13); font-weight: 600; }
+.note-card, .tint-line { display: flex; align-items: center; gap: 10px; padding: 9px 11px; border-radius: var(--r-10); background: var(--fk-blue-tint); border: 1px solid var(--line); font-size: var(--fs-13); color: var(--ink); }
+.note-card span, .tint-line span { flex: 1; min-width: 0; }
+.note-card .ic { width: 16px; height: 16px; color: var(--fk-blue); }
+.note-card.is-warn { background: var(--fk-amber-tint); }
+.note-card.is-warn .ic { color: var(--fk-amber); }
+.quiet-line { display: flex; align-items: center; gap: 6px; margin: 0; font-size: var(--fs-12); color: var(--muted); }
+.quiet-line .ic { width: 14px; height: 14px; }
+.quiet-line.is-ok { color: var(--fk-green-bright); font-weight: 600; }
+.log-list { list-style: none; margin: 0; padding: 0; font-size: var(--fs-12); color: var(--ink-2); }
+.log-list li { padding: 8px 0; border-bottom: 1px solid var(--line-2); }
+.log-list time { color: var(--muted); margin-right: 6px; }
+.set-row { display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 10px 0; border-bottom: 1px solid var(--line-2); }
+.set-row > div, .set-col { display: grid; gap: 2px; min-width: 0; }
+.set-row small, .set-col small { color: var(--muted); font-size: var(--fs-12); font-weight: 400; }
+.set-block { display: grid; gap: 8px; padding: 10px 0; border-bottom: 1px solid var(--line-2); }
+
+/* Product photos (Wikimedia Commons) */
+.thumb.is-photo { background: var(--surface); border: 1px solid var(--line-2); overflow: hidden; padding: 0; }
+.thumb.is-photo img { width: 100%; height: 100%; object-fit: cover; display: block; }
+.thumb.is-broken { background: var(--skeleton); }
+
+/* A hidden notice must not block taps on the header tiles underneath */
+.toast-host:not(.is-on) .notice, .toast-host:not(.is-on) .notice * { pointer-events: none; }
