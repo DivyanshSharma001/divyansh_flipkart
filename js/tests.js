@@ -65,7 +65,7 @@
           for (let n = 1; n <= 5; n++) { const v = hook('meera', act('meera', 'split', n)); const c = A.engine.anchor.findCard(v.cardId); tiers.push(c ? (c.speedBump ? 'SB' : 'ask') : v.verdict); }
           return { pass: tiers.slice(0, 4).every((x) => x === 'ask') && tiers[4] === 'SB', detail: tiers.join(', ') };
         });
-        check('AC-DG-07', 'Aarav (floor Ask > ₹2,000) sets Auto for ₹3,000 → blocked', () => { const r = A.engine.policy.addRule(P('aarav'), { area: 'any', max: 3000, tier: 'auto' }); return { pass: !r.ok && !!r.conflict, detail: r.ok ? 'saved' : 'blocked: ' + r.conflict.tier }; });
+        check('AC-DG-07', 'Vihan (floor Ask > ₹2,000) sets Auto for ₹3,000 → blocked', () => { const r = A.engine.policy.addRule(P('vihan'), { area: 'any', max: 3000, tier: 'auto' }); return { pass: !r.ok && !!r.conflict, detail: r.ok ? 'saved' : 'blocked: ' + r.conflict.tier }; });
         check('AC-DG-08', 'Medium card, 24 h no response → declined (expired)', () => { const v = hook('meera', act('meera', 'groceries')); A.clock.advance(24 * U.HOUR + U.MIN); A.engine.anchor.tick(); const c = A.engine.anchor.findCard(v.cardId); A.clock.advance(-(24 * U.HOUR + U.MIN)); return { pass: c.resolution === 'expired', detail: c.resolution }; });
         check('AC-DG-11', 'Declined twice in 24 h → third auto-declined', () => {
           for (let i = 0; i < 2; i++) { const v = hook('meera', act('meera', 'bigTransfer', null, { amount: 7000, counterparty: { id: 'p-repeat', name: 'Repeat Co', known: false, type: 'person' } })); A.engine.anchor.resolve(v.cardId, { type: 'decline', by: 'meera' }); }
@@ -105,9 +105,9 @@
         check('AC-MF-04', 'Skip once → skipped, no follow-up', () => { const v = hook('priya', act('priya', 'writing')); A.engine.anchor.mfSkip(v.cardId); return A.engine.anchor.findCard(v.cardId).resolution === 'skipped'; });
         check('AC-MF-05', 'Cap reached → passes through (cap_reached)', () => { const p = P('meera'); p.meFirst.today = { date: new Date(A.clock.now()).toISOString().slice(0, 10), count: 5 }; const v = hook('meera', act('meera', 'gift', null, { threadId: 'new-thread' })); p.meFirst.today.count = 1; return { pass: v.verdict === 'allow' && v.reason === 'cap_reached', detail: v.reason }; });
         check('AC-MF-06', 'Distress event → never held', () => { const v = hook('meera', act('meera', 'gift', null, { threadId: 'd1', tags: ['distress'] })); return { pass: v.verdict === 'allow' && v.reason === 'distress', detail: v.reason }; });
-        check('AC-MF-08', 'Aarav: third schoolwork skip unavailable (Level 2)', () => {
+        check('AC-MF-08', 'Vihan: third schoolwork skip unavailable (Level 2)', () => {
           const r = [];
-          for (let n = 1; n <= 3; n++) { const v = hook('aarav', act('aarav', 'homework', n)); r.push(A.engine.anchor.mfSkip(v.cardId).ok); }
+          for (let n = 1; n <= 3; n++) { const v = hook('vihan', act('vihan', 'homework', n)); r.push(A.engine.anchor.mfSkip(v.cardId).ok); }
           return { pass: r[0] && r[1] && !r[2], detail: r.join(', ') };
         });
         check('AC-MF-09', 'Device-level mode → Me-First unavailable', () => { const p = P('priya'); p.mode = 'device'; const v = hook('priya', act('priya', 'writing', null, { threadId: 'dv' })); p.mode = 'protocol'; return { pass: v.verdict === 'allow' && v.reason === 'unsupported_mode', detail: v.reason }; });
@@ -122,8 +122,8 @@
         });
         check('AC-FC-04', 'No response 15 min → second contact alerted', () => { const al = A.state.family.alerts.find((a) => a.cardId === scamCard.id); A.clock.advance(15 * U.MIN + 1000); A.engine.family.tick(); A.clock.advance(-(15 * U.MIN + 1000)); return { pass: al.idx === 1, detail: 'now with ' + al.contacts[al.idx].name }; });
         check('AC-FC-05', 'Co-approval: Meera approves, Rajan declines → declined', () => { A.engine.anchor.resolve(scamCard.id, { type: 'approve', by: 'meera' }); A.engine.anchor.resolve(scamCard.id, { type: 'decline', by: 'rajan' }); return { pass: scamCard.resolution === 'declined', detail: scamCard.resolution }; });
-        check('AC-FC-06', 'Aarav Money L2: ₹1,200 purchase → held for Meera', () => { const v = hook('aarav', act('aarav', 'gems')); const c = A.engine.anchor.findCard(v.cardId); return { pass: c && c.approver === 'guardian', detail: 'approver ' + (c && c.approver) }; });
-        check('AC-FC-07', 'Level request approved → new limits apply', () => { const p = P('aarav'); p.licence.money.weeks = 4; p.licence.money.decisions = 10; const r = A.engine.family.requestLevel('aarav', 'money'); A.engine.family.decideLevel(r.id, true); return { pass: p.licence.money.level === 3, detail: 'level ' + p.licence.money.level }; });
+        check('AC-FC-06', 'Vihan Money L2: ₹1,200 purchase → held for Meera', () => { const v = hook('vihan', act('vihan', 'gems')); const c = A.engine.anchor.findCard(v.cardId); return { pass: c && c.approver === 'guardian', detail: 'approver ' + (c && c.approver) }; });
+        check('AC-FC-07', 'Level request approved → new limits apply', () => { const p = P('vihan'); p.licence.money.weeks = 4; p.licence.money.decisions = 10; const r = A.engine.family.requestLevel('vihan', 'money'); A.engine.family.decideLevel(r.id, true); return { pass: p.licence.money.level === 3, detail: 'level ' + p.licence.money.level }; });
         check('AC-FC-09', 'Pause sharing → linked person gets no alerts', () => { A.engine.family.pauseSharing('rajan', 'meera', true); A.engine.family.pauseSharing('rajan', 'ravi', true); const al = A.engine.family.raiseAlert({ member: 'rajan', tier: 'critical', band: 'x' }); A.engine.family.pauseSharing('rajan', 'meera', false); A.engine.family.pauseSharing('rajan', 'ravi', false); return { pass: al === null, detail: String(al) }; });
         check('AC-FC-10', 'Remove link during open Critical alert → deferred', () => { hook('rajan', act('rajan', 'scam')); const r = A.engine.family.removeLink('rajan', 'meera'); return { pass: r.deferred === true, detail: JSON.stringify(r) }; });
         check('i18n', 'Every copy key has English and Hindi', () => { const missing = Object.keys(A.i18n.STR).filter((k) => !A.i18n.STR[k][0] || !A.i18n.STR[k][1]); return { pass: !missing.length, detail: missing.length ? missing.join(', ') : Object.keys(A.i18n.STR).length + ' keys' }; });

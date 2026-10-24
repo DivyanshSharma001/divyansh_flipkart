@@ -1,5 +1,5 @@
 /* Family tab — Family Circle (PRD 5). Role-dependent: trusted contact / guardian (Meera),
-   protected elder (Rajan), learner (Aarav), unlinked adults. Transparency, not surveillance:
+   protected elder (Rajan), learner (Vihan), unlinked adults. Transparency, not surveillance:
    whatever a contact sees, the member sees too. */
 (function () {
   'use strict';
@@ -125,7 +125,7 @@
       (links.some((l) => l.paused) ? '<div class="pad"><div class="note-card">' + ic('help') + '<span>' + esc(t('fc.helpline')) + '</span></div></div>' : '');
   }
 
-  /* ---------------- Learner view (Aarav) ---------------- */
+  /* ---------------- Learner view (Vihan) ---------------- */
   function minorView(p, links) {
     const lang = p.lang;
     const g = P(p.guardian);

@@ -36,7 +36,7 @@ Reference: Meesho "DICE prototype" (React + Tailwind, Vite). Visited with Playwr
 - **Below 640 px the frame disappears**: no border, no radius, no shadow, `height:100dvh`, full-bleed app.
 
 ### 1.3 Role-dependent rendering ("website for different users")
-- **Consumer roles → phone frame** (customer, rider in the reference; Meera / Priya / Aarav / Rajan here).
+- **Consumer roles → phone frame** (customer, rider in the reference; Meera / Priya / Vihan / Rajan here).
 - **Operator roles → full-width desktop dashboard** (hub manager in the reference): page header
   with back arrow + title + 12 px subtitle, underline tab bar (active tab = ink text + 2 px underline,
   count badges as small red circles), white cards `radius:16px`, empty states in dashed boxes.

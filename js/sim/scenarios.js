@@ -25,17 +25,17 @@
       ]
     },
     {
-      id: 'S2', title: 'Homework and gift', who: 'Aarav, Meera · English', mins: 3,
+      id: 'S2', title: 'Homework and gift', who: 'Vihan, Meera · English', mins: 3,
       features: 'Me-First (tutor, Skip once) · Learner\'s Licence · guardian view',
       steps: [
-        { label: 'Aarav asks for a physics answer → Me-First prompt (guardian-set)', run() { go('aarav', 'agent'); ag().propose('aarav', 'homework', 1); } },
-        { label: 'He types his first step; agent replies with a hint (tutor style)', user: true, assist() { const c = waitingCard('aarav', 'mefirst'); if (c) anchor().mfAnswer(c.id, 'At the top v is 0, so I would use v² = u² − 2gh'); } },
-        { label: 'Second question → he taps Skip once (1 of 2)', run() { ag().propose('aarav', 'homework', 2); }, assistAfter: true, assist() { const c = waitingCard('aarav', 'mefirst'); if (c) anchor().mfSkip(c.id); } },
-        { label: 'Third question → Skip once again (2 of 2)', run() { ag().propose('aarav', 'homework', 3); }, assistAfter: true, assist() { const c = waitingCard('aarav', 'mefirst'); if (c) anchor().mfSkip(c.id); } },
-        { label: 'Fourth question → limit banner with "Ask Meera"', run() { ag().propose('aarav', 'homework', 4); } },
-        { label: 'His agent proposes a ₹1,200 game purchase → held for Meera (Level 2)', run() { const c = waitingCard('aarav', 'mefirst'); if (c) anchor().mfAnswer(c.id, 'Use s = half a t squared'); ag().propose('aarav', 'gems'); } },
-        { label: 'Switch to Meera: Family shows Aarav\'s summary, skips and the held purchase', run() { go('meera', 'family'); } },
-        { label: 'Meera declines the purchase', user: true, assist() { const c = P('aarav').cards.find((x) => x.status === 'waiting' && x.approver === 'guardian'); if (c) anchor().resolve(c.id, { type: 'decline', by: 'meera' }); } },
+        { label: 'Vihan asks for a physics answer → Me-First prompt (guardian-set)', run() { go('vihan', 'agent'); ag().propose('vihan', 'homework', 1); } },
+        { label: 'He types his first step; agent replies with a hint (tutor style)', user: true, assist() { const c = waitingCard('vihan', 'mefirst'); if (c) anchor().mfAnswer(c.id, 'At the top v is 0, so I would use v² = u² − 2gh'); } },
+        { label: 'Second question → he taps Skip once (1 of 2)', run() { ag().propose('vihan', 'homework', 2); }, assistAfter: true, assist() { const c = waitingCard('vihan', 'mefirst'); if (c) anchor().mfSkip(c.id); } },
+        { label: 'Third question → Skip once again (2 of 2)', run() { ag().propose('vihan', 'homework', 3); }, assistAfter: true, assist() { const c = waitingCard('vihan', 'mefirst'); if (c) anchor().mfSkip(c.id); } },
+        { label: 'Fourth question → limit banner with "Ask Meera"', run() { ag().propose('vihan', 'homework', 4); } },
+        { label: 'His agent proposes a ₹1,200 game purchase → held for Meera (Level 2)', run() { const c = waitingCard('vihan', 'mefirst'); if (c) anchor().mfAnswer(c.id, 'Use s = half a t squared'); ag().propose('vihan', 'gems'); } },
+        { label: 'Switch to Meera: Family shows Vihan\'s summary, skips and the held purchase', run() { go('meera', 'family'); } },
+        { label: 'Meera declines the purchase', user: true, assist() { const c = P('vihan').cards.find((x) => x.status === 'waiting' && x.approver === 'guardian'); if (c) anchor().resolve(c.id, { type: 'decline', by: 'meera' }); } },
         { label: 'Meera asks her agent for a gift for her mother → Me-First Gifts prompt', run() { go('meera', 'agent'); ag().propose('meera', 'gift'); } },
         { label: 'She answers by voice: "Something for her garden, under ₹2,000"', user: true, assist() { const c = waitingCard('meera', 'mefirst'); if (c) anchor().mfAnswer(c.id, 'Something for her garden, under ₹2,000', true); } },
         { label: 'She picks a garden option → resolves as authored', user: true, assist() { const c = P('meera').cards.find((x) => x.type === 'mefirst' && x.status === 'answered'); if (c) anchor().mfPick(c.id, 'own'); } }

@@ -33,7 +33,7 @@
     { id: 'gf-herb-kit', name: 'Kitchen herb grow kit', merchant: 'GreenNest', merchantId: 'greennest', category: 'gifts', group: 'gift-garden', price: 899, spec: { en: 'Tulsi, mint, coriander · self-watering', hi: 'तुलसी, पुदीना, धनिया · खुद पानी देने वाला' }, rating: 4.2, source: 'Marketplace listings', cities: ['all'], checkedH: 4 },
     { id: 'gf-silk-saree', name: 'Kanchipuram silk saree', merchant: 'Nalli Silks', merchantId: 'nalli', category: 'gifts', group: 'gift-saree', price: 6500, spec: { en: 'Pure silk · zari border', hi: 'शुद्ध रेशम · ज़री बॉर्डर' }, rating: 4.7, source: 'Brand store', cities: ['all'], checkedH: 6 },
 
-    /* --- Aarav's game purchase (S2) --- */
+    /* --- Vihan's game purchase (S2) --- */
     { id: 'gm-battlezone-gems', name: 'BattleZone 2400 gems', merchant: 'BattleZone Games', merchantId: 'battlezone', category: 'games', group: 'game-currency-bz', price: 1200, spec: { en: 'In-game currency · non-refundable', hi: 'गेम करेंसी · वापस नहीं होगी' }, rating: 4.0, source: 'Play Store', cities: ['all'], checkedH: 1 },
     { id: 'gm-battlezone-gems-promo', name: 'BattleZone 2400 gems (festival pack)', merchant: 'BattleZone Games', merchantId: 'battlezone', category: 'games', group: 'game-currency-bz', price: 1190, spec: { en: 'In-game currency · non-refundable', hi: 'गेम करेंसी · वापस नहीं होगी' }, rating: 4.0, source: 'Play Store', cities: ['all'], checkedH: 1 },
 

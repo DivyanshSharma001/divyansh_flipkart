@@ -99,7 +99,7 @@
     const res = A.ui.composerResult;
     return '<div class="op-split is-wide"><article class="op-card"><h3>Event composer</h3><p class="op-muted">Craft any pre-action hook call by hand (appendix). The simulated agent sends it to POST /anchor/hook.</p>' +
       '<div class="op-form">' +
-      '<label>Persona' + sel('pid', ['meera', 'priya', 'aarav', 'rajan', 'dev'], c.pid) + '</label>' +
+      '<label>Persona' + sel('pid', ['meera', 'priya', 'vihan', 'rajan', 'dev'], c.pid) + '</label>' +
       '<label>Event type' + sel('kind', ['purchase', 'payment', 'insurance', 'subscription', 'booking', 'loan', 'investment', 'message', 'sign', 'share_data', 'draft', 'recommendation'], c.kind) + '</label>' +
       '<label>Life area' + sel('area', ['money', 'shopping', 'health', 'home', 'plans', 'gifts', 'messages', 'writing', 'school'], c.area) + '</label>' +
       '<label>Category' + sel('category', ['electronics', 'groceries', 'insurance', 'travel', 'gifts', 'games', 'home', 'p2p', 'fashion', 'jewellery-rare'], c.category) + '</label>' +
@@ -124,7 +124,7 @@
     const rows = [];
     Object.values(A.state.personas).forEach((p) => { if (f === 'all' || f === p.id) p.ledger.forEach((e) => rows.push(e)); });
     rows.sort((a, b) => b.ts - a.ts);
-    return '<article class="op-card"><div class="op-filter">' + ['all', 'meera', 'priya', 'aarav', 'rajan', 'dev'].map((k) => '<button class="op-chip' + (f === k ? ' is-active' : '') + '" data-action="op.ledgerFilter" data-k="' + k + '">' + k + '</button>').join('') + '<span class="op-muted">' + rows.length + ' entries</span></div>' +
+    return '<article class="op-card"><div class="op-filter">' + ['all', 'meera', 'priya', 'vihan', 'rajan', 'dev'].map((k) => '<button class="op-chip' + (f === k ? ' is-active' : '') + '" data-action="op.ledgerFilter" data-k="' + k + '">' + k + '</button>').join('') + '<span class="op-muted">' + rows.length + ' entries</span></div>' +
       '<div class="op-table-wrap"><table class="op-table"><thead><tr><th>When</th><th>Persona</th><th>Area</th><th>Summary</th><th>Amount</th><th>Status</th><th>Resolution</th><th>Label</th></tr></thead><tbody>' +
       rows.slice(0, 250).map((e) => '<tr><td>' + esc(U.fmtDateTime(e.ts, 'en')) + '</td><td>' + esc(e.persona) + '</td><td>' + esc(e.area) + '</td><td>' + esc(U.pick(e.summary, 'en')) + (e.meaningful ? '' : ' <em>(not meaningful)</em>') + '</td><td>' + (e.amount ? esc(U.inr(e.amount)) : '') + '</td><td>' + esc(e.status || '') + '</td><td>' + esc(e.resolution) + '</td><td>' + (e.label ? '<span class="op-dot is-' + e.label + '"></span>' + esc(e.labelKey || e.label) : '') + '</td></tr>').join('') +
       '</tbody></table></div></article>';

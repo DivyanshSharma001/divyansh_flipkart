@@ -8,7 +8,7 @@
   function freshState() {
     const st = A.data.seed();
     Object.values(st.personas).forEach((p) => A.engine.policy.applyPreset(p, p.preset));
-    st.personas.aarav.guardianRules = [{
+    st.personas.vihan.guardianRules = [{
       id: 'g_money_2000', scope: { kinds: A.engine.policy.MONEY_KINDS, min: 2000 }, tier: 'ask', speedBump: false, source: 'guardian',
       scopeText: { en: 'payments over ₹2,000', hi: '₹2,000 से ज़्यादा के भुगतान' }
     }];

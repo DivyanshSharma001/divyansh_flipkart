@@ -186,8 +186,8 @@
     return g.out;
   }
 
-  function aarav() {
-    const g = makeGen('aarav', 33);
+  function vihan() {
+    const g = makeGen('vihan', 33);
     const oct = '2026-10';
     g.add(oct, 'school', 'authored', 5); g.add(oct, 'school', 'approved_considered', 2); g.add(oct, 'school', 'autopilot', 3);
     g.add(oct, 'shopping', 'authored', 2); g.add(oct, 'shopping', 'declined', 1, { summary: 'Game skin purchase (declined by guardian)', summaryHi: 'गेम स्किन ख़रीद (अभिभावक ने मना किया)' }); g.add(oct, 'shopping', 'autopilot', 2);
@@ -260,10 +260,10 @@
         role: 'adult', roleLabel: { en: 'Adult · monthly statement', hi: 'वयस्क · मासिक स्टेटमेंट' },
         phone: '+919900112233', connectedAt: new Date(2026, 5, 10).getTime(), ledger: priya()
       }),
-      aarav: persona({
-        id: 'aarav', name: 'Aarav Iyer', short: 'Aarav', initials: 'AI', age: 16, city: 'Bengaluru',
+      vihan: persona({
+        id: 'vihan', name: 'Vihan Iyer', short: 'Vihan', initials: 'VI', age: 16, city: 'Bengaluru',
         role: 'minor', guardian: 'meera', preset: 'careful', roleLabel: { en: 'Minor (16) · Learner\'s Licence', hi: 'नाबालिग (16) · लर्नर लाइसेंस' },
-        phone: '+919886000016', connectedAt: new Date(2026, 6, 20).getTime(), ledger: aarav(),
+        phone: '+919886000016', connectedAt: new Date(2026, 6, 20).getTime(), ledger: vihan(),
         licence: {
           money: { level: 2, weeks: 3, decisions: 7 },
           school: { level: 2, weeks: 6, decisions: 14 },
@@ -290,19 +290,19 @@
     personas.priya.meFirst.areas.writing.on = true;
     personas.priya.meFirst.areas.plans.on = true;
     personas.priya.meFirst.stats['2026-10'] = { writing: { shown: 10, answered: 6, low: 2, skipped: 4, authored: 4 }, plans: { shown: 4, answered: 2, low: 0, skipped: 2, authored: 1 } };
-    personas.aarav.meFirst.areas.school = { on: true, lockedBy: 'meera' };
-    personas.aarav.meFirst.stats['2026-10'] = { school: { shown: 12, answered: 9, low: 3, skipped: 3, authored: 5 } };
+    personas.vihan.meFirst.areas.school = { on: true, lockedBy: 'meera' };
+    personas.vihan.meFirst.stats['2026-10'] = { school: { shown: 12, answered: 9, low: 3, skipped: 3, authored: 5 } };
     personas.rajan.meFirst.stats['2026-10'] = {};
 
     return {
       current: 'meera',
-      tabs: { meera: 'agent', priya: 'mirror', aarav: 'agent', rajan: 'agent', dev: 'mirror' },
+      tabs: { meera: 'agent', priya: 'mirror', vihan: 'agent', rajan: 'agent', dev: 'mirror' },
       personas,
       family: {
         links: [
           { id: 'L1', kind: 'trusted', member: 'rajan', contact: 'meera', order: 1, share: { alerts: true, summary: false }, coApproval: { redLabel: true, over: 25000 }, paused: false, since: new Date(2026, 6, 16).getTime() },
           { id: 'L1b', kind: 'trusted', member: 'rajan', contact: 'ravi', contactName: 'Ravi (son)', order: 2, share: { alerts: true, summary: false }, coApproval: { redLabel: true, over: 25000 }, paused: false, external: true },
-          { id: 'L2', kind: 'guardian', member: 'aarav', contact: 'meera', order: 1, share: { alerts: true, summary: true, levels: true, skips: true }, paused: false, since: new Date(2026, 6, 20).getTime() }
+          { id: 'L2', kind: 'guardian', member: 'vihan', contact: 'meera', order: 1, share: { alerts: true, summary: true, levels: true, skips: true }, paused: false, since: new Date(2026, 6, 20).getTime() }
         ],
         alerts: [],
         invites: [],

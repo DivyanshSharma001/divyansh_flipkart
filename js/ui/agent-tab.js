@@ -22,7 +22,7 @@
   const INTENTS = {
     meera: [['gift', 'gift', 'Gift for Amma', 'अम्मा का तोहफ़ा'], ['insurance', 'guard', 'Insurance', 'बीमा'], ['groceries', 'cart', 'Groceries', 'राशन'], ['phoneCase', 'phone', 'Phone case', 'फ़ोन कवर'], ['bigTransfer', 'rupee', 'Send ₹60k', '₹60 हज़ार भेजें'], ['loan', 'wallet', 'Loan', 'लोन']],
     priya: [['writing', 'pen', 'Write to landlord', 'मकान मालिक को'], ['plans', 'calendar', 'Saturday plan', 'शनिवार'], ['groceries', 'cart', 'Groceries', 'राशन'], ['phoneCase', 'phone', 'Phone case', 'फ़ोन कवर']],
-    aarav: [['homework', 'school', 'Physics help', 'फ़िज़िक्स'], ['gems', 'play', 'Game gems', 'गेम जेम्स'], ['writing', 'pen', 'Write a message', 'संदेश लिखो']],
+    vihan: [['homework', 'school', 'Physics help', 'फ़िज़िक्स'], ['gems', 'play', 'Game gems', 'गेम जेम्स'], ['writing', 'pen', 'Write a message', 'संदेश लिखो']],
     rajan: [['scam', 'alert', 'Bank call', 'बैंक का फ़ोन'], ['phoneCase', 'phone', 'Phone cover', 'फ़ोन कवर']],
     dev: [['groceries', 'cart', 'Groceries', 'राशन'], ['phoneCase', 'phone', 'Phone case', 'फ़ोन कवर'], ['insurance', 'guard', 'Insurance', 'बीमा']]
   };

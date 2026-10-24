@@ -117,7 +117,7 @@
       '<span class="sb-badge">PRD prototype</span>' +
       '<button class="icon-btn sb-collapse" data-action="shell.collapse" aria-label="Collapse sidebar">' + ic('collapse') + '</button></div>' +
       '<nav class="sb-nav">' +
-      '<div class="sb-group-label">Personas</div>' + ['meera', 'priya', 'aarav', 'rajan'].map(item).join('') +
+      '<div class="sb-group-label">Personas</div>' + ['meera', 'priya', 'vihan', 'rajan'].map(item).join('') +
       '<div class="sb-group-label">New user</div>' + item('dev') +
       '<div class="sb-group-label">Operator</div>' +
       '<button class="sb-item' + (st.current === 'console' ? ' is-active' : '') + '" data-action="nav.persona" data-pid="console" title="Demo console">' +
