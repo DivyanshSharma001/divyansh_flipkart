@@ -31,7 +31,7 @@
     'set.ai_test_ok': ['Gemini replied via {model}.', 'Gemini ने {model} से जवाब दिया।'],
     'set.ai_test_bad': ['Gemini didn\'t answer: {err}', 'Gemini ने जवाब नहीं दिया: {err}'],
     'set.credits': ['Product photos: Wikimedia Commons (free licences, credits in img/CREDITS.md).', 'प्रोडक्ट फ़ोटो: Wikimedia Commons (मुफ़्त लाइसेंस, श्रेय img/CREDITS.md में)।'],
-    'set.made_by': ['Made by Divyansh Sharma', 'Divyansh Sharma द्वारा बनाया गया'],
+    'set.made_by': ['Crafted with ❤️ by Divyansh Sharma', 'Divyansh Sharma द्वारा ❤️ से बनाया गया'],
     'pf.title': ['Profile', 'प्रोफ़ाइल'],
     'pf.this_month': ['decided yourself this month', 'इस महीने ख़ुद तय किया'],
     'pf.waiting': ['waiting for you', 'आपका इंतज़ार'],

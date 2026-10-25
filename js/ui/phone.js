@@ -125,7 +125,7 @@
       '</nav>' +
       '<div class="sb-foot"><label class="sb-check"><input type="checkbox" data-change="shell.tags"' + (document.body.classList.contains('show-tags') ? ' checked' : '') + '>' + ic('tag') + '<span>Show PRD tags</span></label>' +
       '<button class="btn-reset" data-action="shell.reset">' + ic('reset') + '<span>Reset demo</span></button>' +
-      '<p class="sb-credit" title="Made by Divyansh Sharma"><span>Made by </span><b>Divyansh Sharma</b></p></div>';
+      '<p class="sb-credit" title="Crafted with love by Divyansh Sharma"><span>Crafted with ❤️ by </span><b>Divyansh Sharma</b></p></div>';
   }
 
   /* ---------- Phone ---------- */
