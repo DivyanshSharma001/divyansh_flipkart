@@ -21,7 +21,7 @@
     covers(merchantId) { return this.fullCoverage.indexOf(merchantId) >= 0; }
   };
 
-  /* 20 simulated payees flagged for fraud, incl. Rajan's scenario payee */
+  /* 20 simulated payees flagged for fraud, incl. Suresh's scenario payee */
   const names = [
     ['acct-sbi-kyc-7781', 'SBI KYC Verification Desk', 14, '2026-10-26'],
     ['acct-rbi-refund-2210', 'RBI Refund Cell', 9, '2026-10-21'],

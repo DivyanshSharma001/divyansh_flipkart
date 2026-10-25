@@ -22,7 +22,7 @@
     { id: 'el-toughguard', name: 'ToughGuard Pixel 9', merchant: 'GadgetHub', merchantId: 'gadgethub', category: 'electronics', group: 'case-pixel9-rugged', price: 1149, spec: { en: 'Rugged · ring · drop-tested 3 m', hi: 'मज़बूत · रिंग · 3 मी ड्रॉप-टेस्टेड' }, rating: 4.2, source: 'Flipkart listing', cities: ['all'], checkedH: 1 },
     { id: 'el-spigen-p9', name: 'Spigen Tough Armor P9', merchant: 'Spigen India', merchantId: 'spigen', category: 'electronics', group: 'case-pixel9-rugged', price: 1299, spec: { en: 'Rugged · kickstand · drop-tested 3 m', hi: 'मज़बूत · स्टैंड · 3 मी ड्रॉप-टेस्टेड' }, rating: 4.5, source: 'Brand store', cities: ['all'], checkedH: 2 },
 
-    /* --- Meera's grocery orders (pattern + approve & remember) --- */
+    /* --- Kavita's grocery orders (pattern + approve & remember) --- */
     { id: 'gr-freshbasket-weekly', name: 'Weekly family basket', merchant: 'FreshBasket', merchantId: 'freshbasket', category: 'groceries', group: 'grocery-weekly-family', price: 6200, spec: { en: 'Staples + vegetables + dairy · family of 4', hi: 'राशन + सब्ज़ी + डेयरी · 4 लोगों का परिवार' }, rating: 4.1, source: 'Store prices, Bengaluru', cities: ['all'], checkedH: 2 },
     { id: 'gr-dailymart-weekly', name: 'Weekly family basket', merchant: 'DailyMart', merchantId: 'dailymart', category: 'groceries', group: 'grocery-weekly-family', price: 6050, spec: { en: 'Staples + vegetables + dairy · family of 4', hi: 'राशन + सब्ज़ी + डेयरी · 4 लोगों का परिवार' }, rating: 4.0, source: 'Store prices, Bengaluru', cities: ['all'], checkedH: 2 },
     { id: 'gr-minutes-weekly', name: 'Weekly family basket', merchant: 'Minutes Grocery', merchantId: 'minutes', category: 'groceries', group: 'grocery-weekly-family', price: 6390, spec: { en: 'Staples + vegetables + dairy · family of 4', hi: 'राशन + सब्ज़ी + डेयरी · 4 लोगों का परिवार' }, rating: 4.4, source: 'Store prices, Bengaluru', cities: ['all'], checkedH: 3 },
@@ -33,7 +33,7 @@
     { id: 'gf-herb-kit', name: 'Kitchen herb grow kit', merchant: 'GreenNest', merchantId: 'greennest', category: 'gifts', group: 'gift-garden', price: 899, spec: { en: 'Tulsi, mint, coriander · self-watering', hi: 'तुलसी, पुदीना, धनिया · खुद पानी देने वाला' }, rating: 4.2, source: 'Marketplace listings', cities: ['all'], checkedH: 4 },
     { id: 'gf-silk-saree', name: 'Kanchipuram silk saree', merchant: 'Nalli Silks', merchantId: 'nalli', category: 'gifts', group: 'gift-saree', price: 6500, spec: { en: 'Pure silk · zari border', hi: 'शुद्ध रेशम · ज़री बॉर्डर' }, rating: 4.7, source: 'Brand store', cities: ['all'], checkedH: 6 },
 
-    /* --- Vihan's game purchase (S2) --- */
+    /* --- Vihaan's game purchase (S2) --- */
     { id: 'gm-battlezone-gems', name: 'BattleZone 2400 gems', merchant: 'BattleZone Games', merchantId: 'battlezone', category: 'games', group: 'game-currency-bz', price: 1200, spec: { en: 'In-game currency · non-refundable', hi: 'गेम करेंसी · वापस नहीं होगी' }, rating: 4.0, source: 'Play Store', cities: ['all'], checkedH: 1 },
     { id: 'gm-battlezone-gems-promo', name: 'BattleZone 2400 gems (festival pack)', merchant: 'BattleZone Games', merchantId: 'battlezone', category: 'games', group: 'game-currency-bz', price: 1190, spec: { en: 'In-game currency · non-refundable', hi: 'गेम करेंसी · वापस नहीं होगी' }, rating: 4.0, source: 'Play Store', cities: ['all'], checkedH: 1 },
 

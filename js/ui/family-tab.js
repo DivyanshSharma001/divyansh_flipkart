@@ -1,5 +1,5 @@
-/* Family tab — Family Circle (PRD 5). Role-dependent: trusted contact / guardian (Meera),
-   protected elder (Rajan), learner (Vihan), unlinked adults. Transparency, not surveillance:
+/* Family tab — Family Circle (PRD 5). Role-dependent: trusted contact / guardian (Kavita),
+   protected elder (Suresh), learner (Vihaan), unlinked adults. Transparency, not surveillance:
    whatever a contact sees, the member sees too. */
 (function () {
   'use strict';
@@ -28,7 +28,7 @@
     return html;
   };
 
-  /* ---------------- Contact / guardian view (Meera) ---------------- */
+  /* ---------------- Contact / guardian view (Kavita) ---------------- */
   function contactView(p, links) {
     const lang = p.lang;
     const alerts = A.state.family.alerts.filter((a) => a.contacts.slice(0, a.idx + 1).some((c) => c.id === p.id));
@@ -104,7 +104,7 @@
       body + summary + '<p class="sees-same" data-tag="FR-FC-04">' + ic('eye') + esc(t('fc.sees_same', { member: m.short })) + '</p></article>';
   }
 
-  /* ---------------- Member view (Rajan) ---------------- */
+  /* ---------------- Member view (Suresh) ---------------- */
   function memberView(p, links) {
     const lang = p.lang;
     const openAlert = A.state.family.alerts.find((a) => a.member === p.id && a.status === 'open');
@@ -125,7 +125,7 @@
       (links.some((l) => l.paused) ? '<div class="pad"><div class="note-card">' + ic('help') + '<span>' + esc(t('fc.helpline')) + '</span></div></div>' : '');
   }
 
-  /* ---------------- Learner view (Vihan) ---------------- */
+  /* ---------------- Learner view (Vihaan) ---------------- */
   function minorView(p, links) {
     const lang = p.lang;
     const g = P(p.guardian);

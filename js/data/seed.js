@@ -1,7 +1,7 @@
 /* Seed data: 4 personas + 1 new user, 3 months of ledger history so Agency Statements and
    highlights render on day one (appendix). Counts are tuned to PRD acceptance criteria:
-   Priya October = AC-AS-01 (10 authored, 4 declined, 6 considered, 5 quick, 15 autopilot = 50%),
-   Priya September = 26 decisions at 42% → "Up 8 points" (AC-AS-02). */
+   Ananya October = AC-AS-01 (10 authored, 4 declined, 6 considered, 5 quick, 15 autopilot = 50%),
+   Ananya September = 26 decisions at 42% → "Up 8 points" (AC-AS-02). */
 (function () {
   'use strict';
   const A = window.Anchor;
@@ -61,7 +61,7 @@
       { en: 'Chemistry lab report draft', hi: 'केमिस्ट्री लैब रिपोर्ट का ड्राफ़्ट', cat: 'school' }
     ]
   };
-  /* Narrowing highlight data: restaurants Meera's agent picked from in August (11) */
+  /* Narrowing highlight data: restaurants Kavita's agent picked from in August (11) */
   const AUG_RESTAURANTS = ['Toit', 'MTR', 'Glen\'s Bakehouse', 'Vidyarthi Bhavan', 'Truffles', 'Koshy\'s', 'Meghana Foods', 'Brahmin\'s Coffee Bar', 'The Fatty Bao', 'Byg Brewski', 'Smoke House Deli'];
 
   const NOW = new Date(2026, 9, 28, 18, 30).getTime();
@@ -116,8 +116,8 @@
     g.add(month, 'shopping', 'autopilot', n, { tpl, meaningful: false, routine: true, label: 'green' });
   }
 
-  function priya() {
-    const g = makeGen('priya', 11);
+  function ananya() {
+    const g = makeGen('ananya', 11);
     /* October — exactly AC-AS-01 */
     g.add('2026-10', 'money', 'authored', 3); g.add('2026-10', 'money', 'declined', 1); g.add('2026-10', 'money', 'approved_considered', 2); g.add('2026-10', 'money', 'approved_quick', 1); g.add('2026-10', 'money', 'autopilot', 4);
     g.add('2026-10', 'shopping', 'authored', 3); g.add('2026-10', 'shopping', 'declined', 2); g.add('2026-10', 'shopping', 'approved_considered', 2); g.add('2026-10', 'shopping', 'approved_quick', 2); g.add('2026-10', 'shopping', 'autopilot', 4);
@@ -143,8 +143,8 @@
     return g.out;
   }
 
-  function meera() {
-    const g = makeGen('meera', 22);
+  function kavita() {
+    const g = makeGen('kavita', 22);
     const oct = '2026-10';
     g.add(oct, 'money', 'authored', 2); g.add(oct, 'money', 'declined', 1); g.add(oct, 'money', 'approved_quick', 2); g.add(oct, 'money', 'autopilot', 2);
     /* 4 FreshBasket grocery orders over ₹5,000 approved in the last 14 days → 5th triggers "approve and remember" */
@@ -186,8 +186,8 @@
     return g.out;
   }
 
-  function vihan() {
-    const g = makeGen('vihan', 33);
+  function vihaan() {
+    const g = makeGen('vihaan', 33);
     const oct = '2026-10';
     g.add(oct, 'school', 'authored', 5); g.add(oct, 'school', 'approved_considered', 2); g.add(oct, 'school', 'autopilot', 3);
     g.add(oct, 'shopping', 'authored', 2); g.add(oct, 'shopping', 'declined', 1, { summary: 'Game skin purchase (declined by guardian)', summaryHi: 'गेम स्किन ख़रीद (अभिभावक ने मना किया)' }); g.add(oct, 'shopping', 'autopilot', 2);
@@ -208,8 +208,8 @@
     return g.out;
   }
 
-  function rajan() {
-    const g = makeGen('rajan', 44);
+  function suresh() {
+    const g = makeGen('suresh', 44);
     const oct = '2026-10';
     g.add(oct, 'money', 'authored', 2); g.add(oct, 'money', 'declined', 1); g.add(oct, 'money', 'approved_quick', 2); g.add(oct, 'money', 'autopilot', 3);
     g.add(oct, 'health', 'authored', 2); g.add(oct, 'health', 'autopilot', 2);
@@ -250,20 +250,20 @@
 
   A.data.seed = function () {
     const personas = {
-      meera: persona({
-        id: 'meera', name: 'Meera Iyer', short: 'Meera', initials: 'MI', age: 41, city: 'Bengaluru',
+      kavita: persona({
+        id: 'kavita', name: 'Kavita Iyer', short: 'Kavita', initials: 'KI', age: 41, city: 'Bengaluru',
         role: 'adult', roleLabel: { en: 'Guardian · trusted contact', hi: 'अभिभावक · भरोसेमंद संपर्क' },
-        phone: '+919845012345', connectedAt: new Date(2026, 6, 2).getTime(), ledger: meera()
+        phone: '+919845012345', connectedAt: new Date(2026, 6, 2).getTime(), ledger: kavita()
       }),
-      priya: persona({
-        id: 'priya', name: 'Priya Sharma', short: 'Priya', initials: 'PS', age: 29, city: 'Bengaluru',
+      ananya: persona({
+        id: 'ananya', name: 'Ananya Sharma', short: 'Ananya', initials: 'AS', age: 29, city: 'Bengaluru',
         role: 'adult', roleLabel: { en: 'Adult · monthly statement', hi: 'वयस्क · मासिक स्टेटमेंट' },
-        phone: '+919900112233', connectedAt: new Date(2026, 5, 10).getTime(), ledger: priya()
+        phone: '+919900112233', connectedAt: new Date(2026, 5, 10).getTime(), ledger: ananya()
       }),
-      vihan: persona({
-        id: 'vihan', name: 'Vihan Iyer', short: 'Vihan', initials: 'VI', age: 16, city: 'Bengaluru',
-        role: 'minor', guardian: 'meera', preset: 'careful', roleLabel: { en: 'Minor (16) · Learner\'s Licence', hi: 'नाबालिग (16) · लर्नर लाइसेंस' },
-        phone: '+919886000016', connectedAt: new Date(2026, 6, 20).getTime(), ledger: vihan(),
+      vihaan: persona({
+        id: 'vihaan', name: 'Vihaan Iyer', short: 'Vihaan', initials: 'VI', age: 16, city: 'Bengaluru',
+        role: 'minor', guardian: 'kavita', preset: 'careful', roleLabel: { en: 'Minor (16) · Learner\'s Licence', hi: 'नाबालिग (16) · लर्नर लाइसेंस' },
+        phone: '+919886000016', connectedAt: new Date(2026, 6, 20).getTime(), ledger: vihaan(),
         licence: {
           money: { level: 2, weeks: 3, decisions: 7 },
           school: { level: 2, weeks: 6, decisions: 14 },
@@ -271,10 +271,10 @@
           shopping: { level: 2, weeks: 2, decisions: 4 }
         }
       }),
-      rajan: persona({
-        id: 'rajan', name: 'Rajan Subramanian', short: 'Rajan', initials: 'RS', age: 72, city: 'Chennai',
+      suresh: persona({
+        id: 'suresh', name: 'Suresh Subramanian', short: 'Suresh', initials: 'SS', age: 72, city: 'Chennai',
         role: 'elder', lang: 'hi', simple: true, preset: 'careful', roleLabel: { en: 'Elder · Hindi Simple mode', hi: 'बुज़ुर्ग · हिंदी आसान मोड' },
-        phone: '+919444012345', connectedAt: new Date(2026, 6, 15).getTime(), ledger: rajan(), familyName: 'Appa'
+        phone: '+919444012345', connectedAt: new Date(2026, 6, 15).getTime(), ledger: suresh(), familyName: 'Appa'
       }),
       dev: persona({
         id: 'dev', name: 'Dev Malhotra', short: 'Dev', initials: 'DM', age: 34, city: 'Pune',
@@ -283,26 +283,26 @@
       })
     };
     /* Me-First setup */
-    personas.meera.meFirst.areas.gifts.on = true;
-    personas.meera.meFirst.areas.writing.on = true;
-    personas.meera.meFirst.stats['2026-10'] = { gifts: { shown: 10, answered: 8, low: 1, skipped: 2, authored: 6 }, writing: { shown: 6, answered: 3, low: 1, skipped: 3, authored: 2 } };
-    personas.meera.meFirst.today = { date: '2026-10-28', count: 1 };
-    personas.priya.meFirst.areas.writing.on = true;
-    personas.priya.meFirst.areas.plans.on = true;
-    personas.priya.meFirst.stats['2026-10'] = { writing: { shown: 10, answered: 6, low: 2, skipped: 4, authored: 4 }, plans: { shown: 4, answered: 2, low: 0, skipped: 2, authored: 1 } };
-    personas.vihan.meFirst.areas.school = { on: true, lockedBy: 'meera' };
-    personas.vihan.meFirst.stats['2026-10'] = { school: { shown: 12, answered: 9, low: 3, skipped: 3, authored: 5 } };
-    personas.rajan.meFirst.stats['2026-10'] = {};
+    personas.kavita.meFirst.areas.gifts.on = true;
+    personas.kavita.meFirst.areas.writing.on = true;
+    personas.kavita.meFirst.stats['2026-10'] = { gifts: { shown: 10, answered: 8, low: 1, skipped: 2, authored: 6 }, writing: { shown: 6, answered: 3, low: 1, skipped: 3, authored: 2 } };
+    personas.kavita.meFirst.today = { date: '2026-10-28', count: 1 };
+    personas.ananya.meFirst.areas.writing.on = true;
+    personas.ananya.meFirst.areas.plans.on = true;
+    personas.ananya.meFirst.stats['2026-10'] = { writing: { shown: 10, answered: 6, low: 2, skipped: 4, authored: 4 }, plans: { shown: 4, answered: 2, low: 0, skipped: 2, authored: 1 } };
+    personas.vihaan.meFirst.areas.school = { on: true, lockedBy: 'kavita' };
+    personas.vihaan.meFirst.stats['2026-10'] = { school: { shown: 12, answered: 9, low: 3, skipped: 3, authored: 5 } };
+    personas.suresh.meFirst.stats['2026-10'] = {};
 
     return {
-      current: 'meera',
-      tabs: { meera: 'agent', priya: 'mirror', vihan: 'agent', rajan: 'agent', dev: 'mirror' },
+      current: 'kavita',
+      tabs: { kavita: 'agent', ananya: 'mirror', vihaan: 'agent', suresh: 'agent', dev: 'mirror' },
       personas,
       family: {
         links: [
-          { id: 'L1', kind: 'trusted', member: 'rajan', contact: 'meera', order: 1, share: { alerts: true, summary: false }, coApproval: { redLabel: true, over: 25000 }, paused: false, since: new Date(2026, 6, 16).getTime() },
-          { id: 'L1b', kind: 'trusted', member: 'rajan', contact: 'ravi', contactName: 'Ravi (son)', order: 2, share: { alerts: true, summary: false }, coApproval: { redLabel: true, over: 25000 }, paused: false, external: true },
-          { id: 'L2', kind: 'guardian', member: 'vihan', contact: 'meera', order: 1, share: { alerts: true, summary: true, levels: true, skips: true }, paused: false, since: new Date(2026, 6, 20).getTime() }
+          { id: 'L1', kind: 'trusted', member: 'suresh', contact: 'kavita', order: 1, share: { alerts: true, summary: false }, coApproval: { redLabel: true, over: 25000 }, paused: false, since: new Date(2026, 6, 16).getTime() },
+          { id: 'L1b', kind: 'trusted', member: 'suresh', contact: 'ravi', contactName: 'Ravi (son)', order: 2, share: { alerts: true, summary: false }, coApproval: { redLabel: true, over: 25000 }, paused: false, external: true },
+          { id: 'L2', kind: 'guardian', member: 'vihaan', contact: 'kavita', order: 1, share: { alerts: true, summary: true, levels: true, skips: true }, paused: false, since: new Date(2026, 6, 20).getTime() }
         ],
         alerts: [],
         invites: [],

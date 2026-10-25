@@ -74,7 +74,7 @@
     let body = '';
     try { body = ({ scenarios, composer, ledger, trace, relay, metrics, tests })[tab](); } catch (e) { console.error('[console]', e); body = '<div class="op-card">Error rendering</div>'; }
     const relayCount = A.state.family.relay.length;
-    host.innerHTML = '<header class="op-page-head"><button class="icon-btn" data-action="nav.persona" data-pid="' + esc(A.store.get('lastPersona', 'meera')) + '" aria-label="Back to phone">' + ic('back') + '</button>' +
+    host.innerHTML = '<header class="op-page-head"><button class="icon-btn" data-action="nav.persona" data-pid="' + esc(A.store.get('lastPersona', 'kavita')) + '" aria-label="Back to phone">' + ic('back') + '</button>' +
       '<div><h1>Demo console</h1><small>Operator · Anchor Connect simulator · ' + esc(new Date(A.clock.now()).toLocaleString('en-IN')) + '</small></div></header>' +
       '<nav class="op-tabs">' + TABS.map(([k, l]) => '<button class="' + (tab === k ? 'is-active' : '') + '" data-action="op.tab" data-k="' + k + '">' + esc(l) + (k === 'relay' && relayCount ? ' <span class="op-count">' + relayCount + '</span>' : '') + '</button>').join('') + '</nav>' +
       '<div class="op-body">' + body + '</div>';
@@ -84,14 +84,14 @@
     const cards = R().list.map((s) => '<article class="op-card sc-card' + (s.hero ? ' is-hero' : '') + '"><div class="sc-card-top"><b>' + esc(s.id) + '</b>' + (s.hero ? '<span class="op-badge">Hero demo</span>' : '') + '<small>' + s.mins + ' min</small></div>' +
       '<h3>' + esc(s.title) + '</h3><p>' + esc(s.who) + '</p><p class="op-muted">' + esc(s.features) + '</p>' +
       '<button class="op-btn is-primary" data-action="op.startGo" data-id="' + s.id + '">' + ic('play') + 'Start</button></article>').join('');
-    const items = ['All five scenarios run start to finish without operator fixes.', 'Every card has English and Hindi text and voice.', 'Auto-path verdict under 300 ms on the demo phone.', 'No held action is lost in S5.', 'Rajan\'s Hindi warning plays clearly in a noisy room.', '"What they see" preview matches what Meera actually sees.', 'Anchor\'s activity log shows every action from the demo run.', 'Lock-screen notifications show no amounts or names.'];
+    const items = ['All five scenarios run start to finish without operator fixes.', 'Every card has English and Hindi text and voice.', 'Auto-path verdict under 300 ms on the demo phone.', 'No held action is lost in S5.', 'Suresh\'s Hindi warning plays clearly in a noisy room.', '"What they see" preview matches what Kavita actually sees.', 'Anchor\'s activity log shows every action from the demo run.', 'Lock-screen notifications show no amounts or names.'];
     const check = '<article class="op-card"><h3>Demo checklist (appendix)</h3><ul class="op-check">' + items.map((it, i) => '<li><label><input type="checkbox" data-change="op.check" data-i="' + i + '"' + (checklist[i] ? ' checked' : '') + '> ' + esc(it) + '</label></li>').join('') + '</ul></article>';
     return '<div class="op-grid">' + cards + '</div><div class="op-split"><article class="op-card"><h3>Runner</h3>' + runnerBlock(false) + '</article>' + check + '</div>' +
       '<div class="op-split"><article class="op-card"><h3>Simulation</h3>' + toggles() + '</article><article class="op-card"><h3>Clock</h3>' + clock() + '</article></div>';
   }
 
   function composer() {
-    const c = A.ui.composerState = A.ui.composerState || { pid: 'meera', kind: 'purchase', area: 'shopping', amount: 7000, cpName: 'GadgetHub', cp: 'known', cpType: 'business', item: '', fraud: '', disc: 'none_field', urgency: 'normal', rev: 'reversible', signals: [], recurring: false, routine: false, skipHook: false, category: 'electronics' };
+    const c = A.ui.composerState = A.ui.composerState || { pid: 'kavita', kind: 'purchase', area: 'shopping', amount: 7000, cpName: 'GadgetHub', cp: 'known', cpType: 'business', item: '', fraud: '', disc: 'none_field', urgency: 'normal', rev: 'reversible', signals: [], recurring: false, routine: false, skipHook: false, category: 'electronics' };
     const sel = (id, opts, val) => '<select id="' + id + '" data-change="op.cmp" data-f="' + id + '">' + opts.map((o) => { const [v, l] = Array.isArray(o) ? o : [o, o]; return '<option value="' + esc(v) + '"' + (String(val) === String(v) ? ' selected' : '') + '>' + esc(l) + '</option>'; }).join('') + '</select>';
     const items = [['', '— none (not in catalogue) —']].concat(A.data.catalogue.items.filter((i) => !i.id.startsWith('fx-')).map((i) => [i.id, i.name + ' · ' + U.inr(i.price)]));
     const fraud = [['', '— not on fraud list —']].concat(A.data.fraud.list.map((f) => [f.id, f.name]));
@@ -99,7 +99,7 @@
     const res = A.ui.composerResult;
     return '<div class="op-split is-wide"><article class="op-card"><h3>Event composer</h3><p class="op-muted">Craft any pre-action hook call by hand (appendix). The simulated agent sends it to POST /anchor/hook.</p>' +
       '<div class="op-form">' +
-      '<label>Persona' + sel('pid', ['meera', 'priya', 'vihan', 'rajan', 'dev'], c.pid) + '</label>' +
+      '<label>Persona' + sel('pid', ['kavita', 'ananya', 'vihaan', 'suresh', 'dev'], c.pid) + '</label>' +
       '<label>Event type' + sel('kind', ['purchase', 'payment', 'insurance', 'subscription', 'booking', 'loan', 'investment', 'message', 'sign', 'share_data', 'draft', 'recommendation'], c.kind) + '</label>' +
       '<label>Life area' + sel('area', ['money', 'shopping', 'health', 'home', 'plans', 'gifts', 'messages', 'writing', 'school'], c.area) + '</label>' +
       '<label>Category' + sel('category', ['electronics', 'groceries', 'insurance', 'travel', 'gifts', 'games', 'home', 'p2p', 'fashion', 'jewellery-rare'], c.category) + '</label>' +
@@ -124,7 +124,7 @@
     const rows = [];
     Object.values(A.state.personas).forEach((p) => { if (f === 'all' || f === p.id) p.ledger.forEach((e) => rows.push(e)); });
     rows.sort((a, b) => b.ts - a.ts);
-    return '<article class="op-card"><div class="op-filter">' + ['all', 'meera', 'priya', 'vihan', 'rajan', 'dev'].map((k) => '<button class="op-chip' + (f === k ? ' is-active' : '') + '" data-action="op.ledgerFilter" data-k="' + k + '">' + k + '</button>').join('') + '<span class="op-muted">' + rows.length + ' entries</span></div>' +
+    return '<article class="op-card"><div class="op-filter">' + ['all', 'kavita', 'ananya', 'vihaan', 'suresh', 'dev'].map((k) => '<button class="op-chip' + (f === k ? ' is-active' : '') + '" data-action="op.ledgerFilter" data-k="' + k + '">' + k + '</button>').join('') + '<span class="op-muted">' + rows.length + ' entries</span></div>' +
       '<div class="op-table-wrap"><table class="op-table"><thead><tr><th>When</th><th>Persona</th><th>Area</th><th>Summary</th><th>Amount</th><th>Status</th><th>Resolution</th><th>Label</th></tr></thead><tbody>' +
       rows.slice(0, 250).map((e) => '<tr><td>' + esc(U.fmtDateTime(e.ts, 'en')) + '</td><td>' + esc(e.persona) + '</td><td>' + esc(e.area) + '</td><td>' + esc(U.pick(e.summary, 'en')) + (e.meaningful ? '' : ' <em>(not meaningful)</em>') + '</td><td>' + (e.amount ? esc(U.inr(e.amount)) : '') + '</td><td>' + esc(e.status || '') + '</td><td>' + esc(e.resolution) + '</td><td>' + (e.label ? '<span class="op-dot is-' + e.label + '"></span>' + esc(e.labelKey || e.label) : '') + '</td></tr>').join('') +
       '</tbody></table></div></article>';
@@ -177,7 +177,7 @@
     R().start(d.id);
     const first = R().active.steps[0];
     R().next();
-    if (A.state.current === 'console') A.ui.goto(A.store.get('lastPersona', 'meera'));
+    if (A.state.current === 'console') A.ui.goto(A.store.get('lastPersona', 'kavita'));
     void first;
   };
   A.actions['op.next'] = () => R().next();

@@ -20,10 +20,10 @@
 
   /* ---------- Quick intents (header icon tabs + suggestion rail) ---------- */
   const INTENTS = {
-    meera: [['gift', 'gift', 'Gift for Amma', 'अम्मा का तोहफ़ा'], ['insurance', 'guard', 'Insurance', 'बीमा'], ['groceries', 'cart', 'Groceries', 'राशन'], ['phoneCase', 'phone', 'Phone case', 'फ़ोन कवर'], ['bigTransfer', 'rupee', 'Send ₹60k', '₹60 हज़ार भेजें'], ['loan', 'wallet', 'Loan', 'लोन']],
-    priya: [['writing', 'pen', 'Write to landlord', 'मकान मालिक को'], ['plans', 'calendar', 'Saturday plan', 'शनिवार'], ['groceries', 'cart', 'Groceries', 'राशन'], ['phoneCase', 'phone', 'Phone case', 'फ़ोन कवर']],
-    vihan: [['homework', 'school', 'Physics help', 'फ़िज़िक्स'], ['gems', 'play', 'Game gems', 'गेम जेम्स'], ['writing', 'pen', 'Write a message', 'संदेश लिखो']],
-    rajan: [['scam', 'alert', 'Bank call', 'बैंक का फ़ोन'], ['phoneCase', 'phone', 'Phone cover', 'फ़ोन कवर']],
+    kavita: [['gift', 'gift', 'Gift for Amma', 'अम्मा का तोहफ़ा'], ['insurance', 'guard', 'Insurance', 'बीमा'], ['groceries', 'cart', 'Groceries', 'राशन'], ['phoneCase', 'phone', 'Phone case', 'फ़ोन कवर'], ['bigTransfer', 'rupee', 'Send ₹60k', '₹60 हज़ार भेजें'], ['loan', 'wallet', 'Loan', 'लोन']],
+    ananya: [['writing', 'pen', 'Write to landlord', 'मकान मालिक को'], ['plans', 'calendar', 'Saturday plan', 'शनिवार'], ['groceries', 'cart', 'Groceries', 'राशन'], ['phoneCase', 'phone', 'Phone case', 'फ़ोन कवर']],
+    vihaan: [['homework', 'school', 'Physics help', 'फ़िज़िक्स'], ['gems', 'play', 'Game gems', 'गेम जेम्स'], ['writing', 'pen', 'Write a message', 'संदेश लिखो']],
+    suresh: [['scam', 'alert', 'Bank call', 'बैंक का फ़ोन'], ['phoneCase', 'phone', 'Phone cover', 'फ़ोन कवर']],
     dev: [['groceries', 'cart', 'Groceries', 'राशन'], ['phoneCase', 'phone', 'Phone case', 'फ़ोन कवर'], ['insurance', 'guard', 'Insurance', 'बीमा']]
   };
   A.ui.intentsFor = function (p) {
@@ -260,7 +260,7 @@
   function fraudScript(c, lang) {
     const al = c.alertId && A.state.family.alerts.find((x) => x.id === c.alertId);
     const contact = al ? al.contacts[0].name : '';
-    const hiName = contact === 'Meera' ? 'मीरा' : contact;
+    const hiName = contact === 'Kavita' ? 'कविता' : contact;
     if (lang === 'hi') return 'सावधान रहिए। इस व्यक्ति के ख़िलाफ़ धोखाधड़ी की शिकायत है। मैंने भुगतान रोक दिया है' + (contact ? ' और ' + hiName + ' को बता दिया है' : '') + '। आगे बढ़ें, रोकें, या ' + (hiName || 'परिवार') + ' को फ़ोन करें, बोलिए।';
     return 'Be careful. This person has been reported for fraud. I\'ve paused the payment' + (contact ? ' and told ' + contact : '') + '. Say continue, stop, or call ' + (contact || 'family') + '.';
   }
@@ -328,7 +328,7 @@
       const c = E().anchor.findCard(s.cardId);
       if (s.confirm) return [[hi ? 'मैं यह भुगतान मंज़ूर करता हूँ' : 'I approve this payment', 'confirm']];
       return c && c.critical ?
-        [[hi ? 'रोक दो' : 'Stop', 'decline'], [hi ? 'आगे बढ़ो' : 'Continue', 'approve'], [hi ? 'मीरा को फ़ोन करो' : 'Call family', 'call']] :
+        [[hi ? 'रोक दो' : 'Stop', 'decline'], [hi ? 'आगे बढ़ो' : 'Continue', 'approve'], [hi ? 'कविता को फ़ोन करो' : 'Call family', 'call']] :
         [[hi ? 'हाँ' : 'Approve', 'approve'], [hi ? 'ना' : 'Decline', 'decline'], [hi ? 'तुलना करो' : 'Compare', 'compare']];
     }
     if (s.mode === 'mf') {

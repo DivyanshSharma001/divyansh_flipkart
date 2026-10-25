@@ -488,7 +488,7 @@
 .told-note.is-night { color: var(--fk-yellow); }
 .told-note .ic { width: 15px; height: 15px; }
 
-/* ================= Simple mode (Rajan) ================= */
+/* ================= Simple mode (Suresh) ================= */
 .phone.is-simple .app-body { font-size: var(--fs-16); }
 .phone.is-simple .atext, .phone.is-simple .row.is-user .bubble { font-size: var(--fs-18); }
 .phone.is-simple .nav-label { font-size: var(--fs-13); }

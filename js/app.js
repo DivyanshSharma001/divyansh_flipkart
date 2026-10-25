@@ -8,7 +8,7 @@
   function freshState() {
     const st = A.data.seed();
     Object.values(st.personas).forEach((p) => A.engine.policy.applyPreset(p, p.preset));
-    st.personas.vihan.guardianRules = [{
+    st.personas.vihaan.guardianRules = [{
       id: 'g_money_2000', scope: { kinds: A.engine.policy.MONEY_KINDS, min: 2000 }, tier: 'ask', speedBump: false, source: 'guardian',
       scopeText: { en: 'payments over ₹2,000', hi: '₹2,000 से ज़्यादा के भुगतान' }
     }];
@@ -20,8 +20,8 @@
     document.querySelector('.stage-demo-btn').innerHTML = A.ui.icon('sliders') + '<span>Demo</span>';
     A.state = freshState();
     A.sim.agent.cachePolicy();
-    const saved = A.store.get('persona', 'meera');
-    A.state.current = A.state.personas[saved] || saved === 'console' ? saved : 'meera';
+    const saved = A.store.get('persona', 'kavita');
+    A.state.current = A.state.personas[saved] || saved === 'console' ? saved : 'kavita';
     if (A.store.get('tags', false)) document.body.classList.add('show-tags');
     if (A.store.get('sbCollapsed', false)) document.getElementById('shell').classList.add('sb-collapsed');
     Object.keys(A.state.personas).forEach((pid) => A.sim.agent.hello(pid));
